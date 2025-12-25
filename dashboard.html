@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lentora Workspace - Your Secret Garden of Focus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h1><i class="fas fa-seedling"></i> Lentora</h1>
+                    <p class="slogan">Bloom in time, flourish in focus</p>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            
+            <!-- User Profile -->
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-info">
+                    <h3 id="user-name">Guest User</h3>
+                    <p id="user-email">guest@lentora.com</p>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            
+            <!-- Ambient Sounds -->
+            <div class="sidebar-section">
+                <h3><i class="fas fa-music"></i> Ambient Sounds</h3>
+                <div class="sound-options">
+                    <div class="sound-option" data-sound="rain">
+                        <i class="fas fa-cloud-rain"></i>
+                        <span>Gentle Rain</span>
+                        <div class="sound-control">
+                            <input type="range" min="0" max="100" value="0" class="volume-slider">
+                            <i class="fas fa-volume-mute"></i>
+                        </div>
+                    </div>
+                    <div class="sound-option" data-sound="forest">
+                        <i class="fas fa-tree"></i>
+                        <span>Forest Birds</span>
+                        <div class="sound-control">
+                            <input type="range" min="0" max="100" value="0" class="volume-slider">
+                            <i class="fas fa-volume-mute"></i>
+                        </div>
+                    </div>
+                    <div class="sound-option" data-sound="stream">
+                        <i class="fas fa-water"></i>
+                        <span>Flowing Stream</span>
+                        <div class="sound-control">
+                            <input type="range" min="0" max="100" value="0" class="volume-slider">
+                            <i class="fas fa-volume-mute"></i>
+                        </div>
+                    </div>
+                    <div class="sound-option" data-sound="wind">
+                        <i class="fas fa-wind"></i>
+                        <span>Soft Wind</span>
+                        <div class="sound-control">
+                            <input type="range" min="0" max="100" value="0" class="volume-slider">
+                            <i class="fas fa-volume-mute"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Session Stats -->
+            <div class="sidebar-section">
+                <h3><i class="fas fa-chart-pie"></i> Today's Stats</h3>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-value" id="sessions-today">0</span>
+                        <span class="stat-label">Sessions</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="focus-time-today">0m</span>
+                        <span class="stat-label">Focus Time</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="tasks-completed">0</span>
+                        <span class="stat-label">Tasks Done</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Motivational Quotes -->
+            <div class="sidebar-section">
+                <h3><i class="fas fa-quote-left"></i> Garden Wisdom</h3>
+                <div class="quote-container">
+                    <p class="quote-text" id="current-quote">"The secret of getting ahead is getting started."</p>
+                    <p class="quote-author">- Mark Twain</p>
+                </div>
+                <button class="btn-small" id="new-quote">
+                    <i class="fas fa-sync-alt"></i> New Quote
+                </button>
+            </div>
+            
+            <!-- Invite Friend -->
+            <div class="sidebar-section">
+                <h3><i class="fas fa-user-friends"></i> Focus Together</h3>
+                <p class="section-text">Invite a friend to join your focus session</p>
+                <button class="btn-invite" id="invite-friend">
+                    <i class="fas fa-envelope"></i> Send Invitation
+                </button>
+                <div class="share-link">
+                    <input type="text" id="session-link" value="https://lentora.com/session/abc123" readonly>
+                    <button class="btn-copy" id="copy-link">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-workspace">
+            <!-- Header -->
+            <header class="workspace-header">
+                <div class="header-left">
+                    <div class="phase-indicator">
+                        <span class="phase-badge" id="current-phase">Focus</span>
+                        <span class="session-count">Session: <span id="session-number">1</span>/4</span>
+                    </div>
+                    <div class="date-display">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span id="current-date">Monday, October 16</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-icon" id="dashboard-toggle">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Stats</span>
+                    </button>
+                    <button class="btn-icon" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Timer Section -->
+            <section class="timer-section">
+                <div class="timer-container">
+                    <!-- Progress Ring -->
+                    <div class="progress-ring">
+                        <svg width="300" height="300">
+                            <circle class="progress-ring-circle" cx="150" cy="150" r="130" stroke-width="10" fill="transparent"/>
+                        </svg>
+                        <div class="timer-display">
+                            <div class="time-left" id="time-left">25:00</div>
+                            <div class="timer-label" id="timer-label">Focus Time</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timer Controls -->
+                    <div class="timer-controls">
+                        <button class="btn-timer" id="start-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <span>Start</span>
+                        </button>
+                        <button class="btn-timer" id="reset-btn">
+                            <i class="fas fa-redo"></i>
+                            <span>Reset</span>
+                        </button>
+                        <button class="btn-timer" id="skip-btn">
+                            <i class="fas fa-forward"></i>
+                            <span>Skip</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Phase Toggle -->
+                    <div class="phase-toggle">
+                        <button class="phase-option active" data-phase="focus">
+                            <i class="fas fa-brain"></i>
+                            Focus
+                            <span class="phase-duration">25:00</span>
+                        </button>
+                        <button class="phase-option" data-phase="short-break">
+                            <i class="fas fa-coffee"></i>
+                            Short Break
+                            <span class="phase-duration">5:00</span>
+                        </button>
+                        <button class="phase-option" data-phase="long-break">
+                            <i class="fas fa-utensils"></i>
+                            Long Break
+                            <span class="phase-duration">15:00</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Custom Durations -->
+                    <div class="custom-durations">
+                        <h4><i class="fas fa-cog"></i> Custom Durations</h4>
+                        <div class="duration-controls">
+                            <div class="duration-control">
+                                <label for="focus-duration">Focus (min)</label>
+                                <input type="number" id="focus-duration" min="1" max="60" value="25">
+                            </div>
+                            <div class="duration-control">
+                                <label for="short-break-duration">Short Break (min)</label>
+                                <input type="number" id="short-break-duration" min="1" max="30" value="5">
+                            </div>
+                            <div class="duration-control">
+                                <label for="long-break-duration">Long Break (min)</label>
+                                <input type="number" id="long-break-duration" min="5" max="60" value="15">
+                            </div>
+                            <button class="btn-small" id="apply-durations">
+                                <i class="fas fa-check"></i> Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Supportive Messages -->
+                <div class="messages-container">
+                    <div class="message-card">
+                        <i class="fas fa-spa"></i>
+                        <p class="message-text">"Every moment of focused work is a seed planted for future success."</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- To-Do List -->
+            <section class="todo-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tasks"></i> Garden of Tasks</h2>
+                    <button class="btn-primary" id="add-task-btn">
+                        <i class="fas fa-plus"></i> Add Task
+                    </button>
+                </div>
+                
+                <div class="todo-container">
+                    <div class="todo-filters">
+                        <button class="filter-btn active" data-filter="all">All Tasks</button>
+                        <button class="filter-btn" data-filter="active">Active</button>
+                        <button class="filter-btn" data-filter="completed">Completed</button>
+                    </div>
+                    
+                    <div class="todo-list" id="todo-list">
+                        <!-- Tasks will be added here dynamically -->
+                    </div>
+                    
+                    <!-- Shared Workspace (only visible when in a shared session) -->
+                    <div class="shared-workspace" id="shared-workspace">
+                        <h3><i class="fas fa-users"></i> Shared with Friends</h3>
+                        <div class="shared-tasks" id="shared-tasks">
+                            <!-- Shared tasks will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Dashboard Modal -->
+    <div class="modal" id="dashboard-modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3><i class="fas fa-chart-line"></i> Progress Dashboard</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="dashboard-tabs">
+                    <button class="tab-btn active" data-tab="daily">Daily</button>
+                    <button class="tab-btn" data-tab="weekly">Weekly</button>
+                    <button class="tab-btn" data-tab="monthly">Monthly</button>
+                </div>
+                
+                <div class="tab-content active" id="daily-tab">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Today's Focus</h4>
+                            <div class="stat-large" id="today-focus">0 min</div>
+                            <p class="stat-trend"><i class="fas fa-arrow-up"></i> 12% from yesterday</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Sessions Completed</h4>
+                            <div class="stat-large" id="today-sessions">0</div>
+                            <p class="stat-trend"><i class="fas fa-arrow-up"></i> 2 more than last week</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Tasks Completed</h4>
+                            <div class="stat-large" id="today-tasks">0</div>
+                            <p class="stat-trend"><i class="fas fa-check-circle"></i> 80% completion rate</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="daily-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="weekly-tab">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Weekly Focus</h4>
+                            <div class="stat-large" id="weekly-focus">0 min</div>
+                            <p class="stat-trend"><i class="fas fa-seedling"></i> Growing steadily</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Average Sessions/Day</h4>
+                            <div class="stat-large" id="avg-sessions">0</div>
+                            <p class="stat-trend"><i class="fas fa-leaf"></i> Consistent routine</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Productivity Streak</h4>
+                            <div class="stat-large" id="streak-days">0 days</div>
+                            <p class="stat-trend"><i class="fas fa-fire"></i> Keep it up!</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="weekly-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="monthly-tab">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Monthly Focus</h4>
+                            <div class="stat-large" id="monthly-focus">0 min</div>
+                            <p class="stat-trend"><i class="fas fa-tree"></i> Your focus is growing</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total Sessions</h4>
+                            <div class="stat-large" id="monthly-sessions">0</div>
+                            <p class="stat-trend"><i class="fas fa-chart-line"></i> 15% increase</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Tasks Completed</h4>
+                            <div class="stat-large" id="monthly-tasks">0</div>
+                            <p class="stat-trend"><i class="fas fa-trophy"></i> Great achievement!</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="monthly-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Task Modal -->
+    <div class="modal" id="task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus-circle"></i> Add New Task</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="task-form">
+                    <div class="form-group">
+                        <label for="task-title">Task Title</label>
+                        <input type="text" id="task-title" placeholder="What needs to be done?" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-description">Description (Optional)</label>
+                        <textarea id="task-description" placeholder="Add details about this task..." rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-priority">Priority</label>
+                        <select id="task-priority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="task-shared">
+                            Share with friends in current session
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="save-task">Save Task</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Invitation Modal -->
+    <div class="modal" id="invite-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-friends"></i> Invite to Focus Session</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Invite a friend to join your current focus session. You'll share a to-do list and can compare progress!</p>
+                <div class="form-group">
+                    <label for="friend-email">Friend's Email</label>
+                    <input type="email" id="friend-email" placeholder="friend@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="invite-message">Personal Message (Optional)</label>
+                    <textarea id="invite-message" placeholder="Join me for a focused work session!" rows="2"></textarea>
+                </div>
+                <div class="share-options">
+                    <p>Or share this link:</p>
+                    <div class="share-link">
+                        <input type="text" id="modal-session-link" value="https://lentora.com/session/abc123" readonly>
+                        <button class="btn-copy" id="modal-copy-link">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary modal-close">Cancel</button>
+                <button class="btn-primary" id="send-invitation">Send Invitation</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification Container -->
+    <div class="notification-container" id="notification-container"></div>
+    
+    <!-- Audio Elements for Sounds -->
+    <audio id="rain-sound" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-rain-loop-1246.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="forest-sound" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-forest-birds-1295.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="stream-sound" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-river-water-flow-1247.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wind-sound" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wind-loop-1002.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="session-end-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wind-chimes-1088.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="break-end-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-bell-notification-933.mp3" type="audio/mpeg">
+    </audio>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
