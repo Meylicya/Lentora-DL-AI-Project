@@ -893,15 +893,6 @@ function logout() {
     }
 }
 
-// Check for notifications (simulated)
-function checkForNotifications() {
-    // Simulate occasional friend notifications
-    setTimeout(() => {
-        if (Math.random() > 0.7) {
-            showNotification('Friend Activity', 'A friend just completed a focus session!', 'info');
-        }
-    }, 30000);
-}
 
 // Setup all event listeners
 function setupEventListeners() {

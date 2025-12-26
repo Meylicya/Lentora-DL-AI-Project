@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="notifications.css">
 </head>
 <body>
     <div class="container">
@@ -425,6 +426,7 @@
     
     <!-- Notification Container -->
     <div class="notification-container" id="notification-container"></div>
+
     
     <!-- Audio Elements for Sounds -->
     <audio id="rain-sound" loop>
@@ -440,13 +442,14 @@
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-wind-loop-1002.mp3" type="audio/mpeg">
     </audio>
     <audio id="session-end-sound">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wind-chimes-1088.mp3" type="audio/mpeg">
+        <source src="notification.mp3" type="audio/mpeg">
     </audio>
     <audio id="break-end-sound">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-bell-notification-933.mp3" type="audio/mpeg">
+        <source src="notification.mp3" type="audio/mpeg">
     </audio>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="dashboard.js"></script>
+    <script src="notifications.js"></script>
 </body>
 </html>
