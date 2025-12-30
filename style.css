@@ -2,12 +2,12 @@
 :root {
     /* Light Theme Colors */
     --morning-dew: #ebdcec;
-    --lavender-mist: #F8F5FC;
-    --petal-white: #a384ca;
+    --lavender-mist: #F5F0FF;
+    --petal-white: #FDF9FF;
     --whisper-cloud: #F2EDF8;
-    --lilac-breeze: #D8C9EB;
-    --wisteria-dream: #C5B2E0;
-    --thistle-mist: #B19ACF;
+    --lilac-breeze: #B488F2;
+    --wisteria-dream: #A06BE8;
+    --thistle-mist: #8C57D4;
     --orchid-glow: #E5D6F4;
     --mauve-whisper: #A894C7;
     --forest-shadow: #5A7A58;
@@ -16,6 +16,9 @@
     --fern-shadow: #688A66;
     --eucalyptus-shade: #A5BCA3;
     --peach-blossom: #FFE0ED;
+    --golden-sun: linear-gradient(135deg, #FFD166 0%, #FFB347 50%, #FF8C42 100%);
+    --golden-light: #FFD166;
+    
     
     /* Dark Theme Colors (for future use) */
     --dark-bg: #1a1a2e;
@@ -567,6 +570,35 @@ body {
 
 .btn-secondary:hover {
     background: var(--fern-shadow);
+}
+.btn-primary {
+  padding: 12px 25px;
+  background: linear-gradient(
+    135deg,
+    var(--lilac-breeze) 0%,
+    var(--wisteria-dream) 100%
+  );
+  border: none;
+  border-radius: var(--radius-md);
+  color: white;
+  font-family: var(--body-font);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(
+    135deg,
+    var(--wisteria-dream) 0%,
+    var(--thistle-mist) 100%
+  );
+  transform: translateY(-2px);
+  box-shadow: var(--hover-shadow);
 }
 
 /* Responsive Design */

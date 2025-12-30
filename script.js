@@ -107,6 +107,7 @@ signupForm.addEventListener('submit', (e) => {
 });
 
 // Guest access
+if (guestAccessBtn) {
 guestAccessBtn.addEventListener('click', () => {
     showNotification('Entering as guest...', 'success');
     
@@ -116,9 +117,10 @@ guestAccessBtn.addEventListener('click', () => {
     
     // Redirect to main page after a short delay
     setTimeout(() => {
-        window.location.href = 'main.html';
+        window.location.href = 'dashboard.html';
     }, 1500);
 });
+}
 
 // Forgot password modal
 forgotPasswordLink.addEventListener('click', (e) => {
@@ -253,7 +255,7 @@ function simulateAuthProcess(type, email, password, rememberMe, name = '') {
         
         // Redirect to main page after a short delay
         setTimeout(() => {
-            window.location.href = 'main.html';
+            window.location.href = 'dashboard.html';
         }, 1500);
     }, 2000);
 }

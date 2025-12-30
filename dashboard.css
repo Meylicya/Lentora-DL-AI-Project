@@ -5,17 +5,19 @@
     --lavender-mist: #F8F5FC;
     --petal-white: #F5F1FA;
     --whisper-cloud: #F2EDF8;
-    --lilac-breeze: #D8C9EB;
+    --lilac-breeze: #9a82b9;
     --wisteria-dream: #C5B2E0;
-    --thistle-mist: #B19ACF;
+    --thistle-mist: #7e5ea9;
     --orchid-glow: #E5D6F4;
-    --mauve-whisper: #A894C7;
+    --mauve-whisper: #75599f;
     --forest-shadow: #5A7A58;
     --sage-depth: #7A9978;
     --moss-veil: #9AB398;
     --fern-shadow: #688A66;
     --eucalyptus-shade: #A5BCA3;
     --peach-blossom: #FFE0ED;
+    --golden-sun: linear-gradient(135deg, #FFD166 0%, #FFB347 50%, #FF8C42 100%);
+    --golden-light: #FFD166;
     
     /* Dark theme variables */
     --dark-bg: #1a1a2e;
@@ -498,7 +500,7 @@ body.dark-theme .share-link input {
 
 .btn-copy {
     padding: 10px 15px;
-    background: var(--lilac-breeze);
+    background: var(--golden-sun);
     border: none;
     border-radius: var(--radius-md);
     color: white;
@@ -543,17 +545,17 @@ body.dark-theme .share-link input {
 
 .phase-badge {
     padding: 8px 20px;
-    background: var(--thistle-mist);
+    background: var(--golden-sun);
     color: white;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-sm);
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 1rem;
     letter-spacing: 1px;
 }
 
 .session-count {
     color: var(--mauve-whisper);
-    font-size: 0.95rem;
+    font-size: 1.4rem;
 }
 
 #session-number {
@@ -570,7 +572,7 @@ body.dark-theme #session-number {
     align-items: center;
     gap: 8px;
     color: var(--mauve-whisper);
-    font-size: 0.95rem;
+    font-size: 1rem;
 }
 
 .date-display i {
@@ -627,8 +629,8 @@ body.dark-theme .btn-icon {
 /* Progress Ring */
 .progress-ring {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 420px;
+    height: 420px;
     margin: 0 auto;
 }
 
@@ -649,9 +651,9 @@ body.dark-theme .btn-icon {
 }
 
 .time-left {
-    font-size: 4.5rem;
-    font-weight: 700;
-    color: var(--forest-shadow);
+    font-size: 7.5rem;
+    font-weight: 1000;
+    color: var(--mauve-whisper);
     font-variant-numeric: tabular-nums;
     line-height: 1;
 }
@@ -661,7 +663,7 @@ body.dark-theme .time-left {
 }
 
 .timer-label {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: var(--mauve-whisper);
     margin-top: 10px;
     letter-spacing: 2px;
@@ -679,7 +681,7 @@ body.dark-theme .time-left {
     border: none;
     border-radius: var(--radius-md);
     color: white;
-    font-family: var(--body-font);
+    font-family: var(--heading-font);
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
@@ -1269,4 +1271,28 @@ body.dark-theme .modal-close {
 .modal-footer {
     padding: 20px 30px;
 background: rgba(255, 255, 255, 0.5)
+}
+.btn-secondary {
+  padding: 8px 18px;
+  background: var(--moss-veil);
+  border: none;
+  border-radius: var(--radius-md);
+  color: white;
+  font-family: var(--body-font);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition-fast), box-shadow var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure Cancel button never moves on hover */
+.btn-secondary:hover {
+  background: var(--fern-shadow);
+  box-shadow: var(--hover-shadow);
+  transform: none !important;
+}
+body.dark-theme .modal-footer {
+    background: rgba(26, 26, 46, 0.5);
 }

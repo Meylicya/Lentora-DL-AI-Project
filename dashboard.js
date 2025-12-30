@@ -250,7 +250,7 @@ function updateProgressCircle() {
     }
     
     const progress = ((totalTime - timeRemaining) / totalTime) * 100;
-    const circumference = 2 * Math.PI * 130;
+    const circumference = 2 * Math.PI * 200;
     const offset = circumference - (progress / 100) * circumference;
     
     progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
@@ -258,7 +258,7 @@ function updateProgressCircle() {
     
     // Update circle color based on phase
     if (currentTimerType === 'focus') {
-        progressCircle.style.stroke = 'var(--thistle-mist)';
+        progressCircle.style.stroke = 'var(--golden-light)';
     } else if (currentTimerType === 'shortBreak') {
         progressCircle.style.stroke = 'var(--sage-depth)';
     } else {
