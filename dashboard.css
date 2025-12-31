@@ -50,7 +50,7 @@
 body.dark-theme {
     --morning-dew: #1a1a2e;
     --lavender-mist: #16213e;
-    --petal-white: #0f3460;
+    --petal-white: #1e0f60;
     --whisper-cloud: #1a3a5f;
     --lilac-breeze: #3a506b;
     --wisteria-dream: #4a6180;
@@ -88,18 +88,27 @@ body {
     position: relative;
 }
 
-/* Background Elements */
-.container::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M20,20 Q40,5 60,20 T100,20" fill="none" stroke="%235A7A58" stroke-width="0.5" opacity="0.1"/><path d="M10,40 Q30,25 50,40 T90,40" fill="none" stroke="%237A9978" stroke-width="0.5" opacity="0.1"/><path d="M30,60 Q50,45 70,60 T100,60" fill="none" stroke="%239AB398" stroke-width="0.5" opacity="0.1"/></svg>');
-    background-size: 300px;
-    z-index: -1;
-    opacity: 0.3;
+/* Background gradients */
+body {
+    background: linear-gradient(135deg, #fbfbfb 0%, #d0e9ce 25%, #fbf3fd 50%, #dfeede 75%, #c3afd6 100%);
+    background-attachment: fixed;
+    background-size: cover;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+/* Dark mode background */
+body.dark-theme {
+  background: linear-gradient(
+    135deg,
+    #111318 0%,   /* near-black base */
+    #1c3126 25%,  /* deep desaturated green */
+    #1a1324 50%,  /* deep violet */
+    #20352a 75%,  /* dark forest green */
+    #342543 100%  /* rich purple edge */
+  );
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 /* Sidebar */
