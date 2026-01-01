@@ -2281,9 +2281,6 @@ body {
   }
 }
 
-/* ============================================ */
-/* FIX: MOBILE DROPDOWN CONTAINER FOR REAL CONTENT */
-/* ============================================ */
 
 /* Mobile: Hide original sections, show in dropdown */
 @media (max-width: 1200px) {
@@ -2348,12 +2345,12 @@ body {
     margin: 0;
     font-style: italic;
     opacity: 0.9;
-    display: none; /* Hide on small mobile */
+    display: none; 
   }
 
   @media (min-width: 480px) {
     .compact-slogan {
-      display: block; /* Show slogan on slightly larger mobile */
+      display: block; 
     }
   }
 
@@ -2514,7 +2511,7 @@ body {
 }
 
 /* ============================================ */
-/* CRITICAL FIX: Ensure dropdown shows REAL content */
+/* CRITICAL FIX: Ensure dropdown shows divs content */
 /* ============================================ */
 
 /* Mobile: All sidebar content must be INSIDE dropdown */
@@ -2715,10 +2712,6 @@ body {
   }
 }
 
-/* ============================================ */
-/* FIX: Remove duplicate slogan if present */
-/* ============================================ */
-
 /* If there's a duplicate slogan in the desktop header, hide it */
 .sidebar-header .logo .slogan {
   display: none;
@@ -2736,7 +2729,7 @@ body {
   }
 }
 
-/* DARK THEME OVERRIDES - Only applied when body.dark-theme exists */
+/* DARK THEME */
 body.dark-theme {
     /* Magical Garden Overnight Color Palette */
     --morning-dew: #1a1a2e;           /* Deep night sky */

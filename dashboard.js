@@ -994,3 +994,28 @@ if (localStorage.getItem('lentora_theme') === 'dark') {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+//fix the drop down arrow moving down upon clicking
+document.addEventListener('DOMContentLoaded', function() {
+  const compactToggle = document.querySelector('.compact-toggle');
+  const dropdownContent = document.querySelector('.sidebar-dropdown-content');
+  
+  if (!compactToggle || !dropdownContent) return;
+  
+  // Store original position
+  const originalTransform = compactToggle.style.transform;
+  
+  compactToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    // Prevent any layout shift during toggle
+    requestAnimationFrame(() => {
+      const isExpanded = dropdownContent.classList.toggle('expanded');
+      compactToggle.classList.toggle('expanded', isExpanded);
+      compactToggle.setAttribute('aria-expanded', isExpanded);
+      
+      // Force arrow to stay in position
+      compactToggle.style.transform = 'translateY(-50%)';
+    });
+  });
+});
