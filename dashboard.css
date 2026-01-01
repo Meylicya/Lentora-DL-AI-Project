@@ -1262,7 +1262,7 @@ body.dark-theme .shared-task-title {
     border-radius: var(--radius-lg);
     width: 90%;
     max-width: 600px;
-    max-height: 90vh;
+    max-height: 95vh;
     overflow: hidden;
     box-shadow: var(--hover-shadow);
     border: 1px solid rgba(232, 224, 248, 0.8);
@@ -2088,5 +2088,325 @@ body.dark-theme .chart-container {
     
     .chart-container {
         padding: 15px;
+    }
+}
+
+/* ============================================ */
+/* TASK MODAL STYLING - Matching invite friend section */
+/* ============================================ */
+
+/* Task modal specific styling */
+#task-modal .form-group {
+    margin-bottom: 22px;
+}
+
+#task-modal .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--forest-shadow);
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+}
+
+body.dark-theme #task-modal .form-group label {
+    color: var(--sage-depth);
+}
+
+/* Task Title Input */
+#task-modal #task-title {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(168, 148, 199, 0.3);
+    background-color: rgba(255, 255, 255, 0.9);
+    font-family: var(--body-font);
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--forest-shadow);
+    backdrop-filter: blur(5px);
+}
+
+#task-modal #task-title::placeholder {
+    color: var(--mauve-whisper);
+    opacity: 0.7;
+}
+
+body.dark-theme #task-modal #task-title {
+    background-color: rgba(22, 33, 62, 0.7);
+    border-color: rgba(177, 154, 207, 0.3);
+    color: var(--dark-text);
+}
+
+body.dark-theme #task-modal #task-title::placeholder {
+    color: var(--eucalyptus-shade);
+}
+
+#task-modal #task-title:focus {
+    outline: none;
+    border-color: var(--thistle-mist);
+    box-shadow: 0 0 0 3px rgba(177, 154, 207, 0.2);
+    background-color: rgba(255, 255, 255, 0.95);
+    transform: translateY(-1px);
+}
+
+body.dark-theme #task-modal #task-title:focus {
+    background-color: rgba(26, 26, 46, 0.9);
+    box-shadow: 0 0 0 3px rgba(122, 153, 120, 0.2);
+}
+
+/* Description Textarea */
+#task-modal #task-description {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(168, 148, 199, 0.3);
+    background-color: rgba(255, 255, 255, 0.9);
+    font-family: var(--body-font);
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--forest-shadow);
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+    backdrop-filter: blur(5px);
+}
+
+#task-modal #task-description::placeholder {
+    color: var(--mauve-whisper);
+    opacity: 0.7;
+}
+
+body.dark-theme #task-modal #task-description {
+    background-color: rgba(22, 33, 62, 0.7);
+    border-color: rgba(177, 154, 207, 0.3);
+    color: var(--dark-text);
+}
+
+body.dark-theme #task-modal #task-description::placeholder {
+    color: var(--eucalyptus-shade);
+}
+
+#task-modal #task-description:focus {
+    outline: none;
+    border-color: var(--thistle-mist);
+    box-shadow: 0 0 0 3px rgba(177, 154, 207, 0.2);
+    background-color: rgba(255, 255, 255, 0.95);
+    transform: translateY(-1px);
+}
+
+body.dark-theme #task-modal #task-description:focus {
+    background-color: rgba(26, 26, 46, 0.9);
+    box-shadow: 0 0 0 3px rgba(122, 153, 120, 0.2);
+}
+
+/* Priority Select Dropdown */
+#task-modal #task-priority {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(168, 148, 199, 0.3);
+    background-color: rgba(255, 255, 255, 0.9);
+    font-family: var(--body-font);
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--forest-shadow);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23755a9f' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 16px;
+    backdrop-filter: blur(5px);
+}
+
+body.dark-theme #task-modal #task-priority {
+    background-color: rgba(22, 33, 62, 0.7);
+    border-color: rgba(177, 154, 207, 0.3);
+    color: var(--dark-text);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23A5BCA3' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+}
+
+#task-modal #task-priority:hover {
+    border-color: var(--thistle-mist);
+    transform: translateY(-1px);
+}
+
+#task-modal #task-priority:focus {
+    outline: none;
+    border-color: var(--thistle-mist);
+    box-shadow: 0 0 0 3px rgba(177, 154, 207, 0.2);
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+body.dark-theme #task-modal #task-priority:focus {
+    background-color: rgba(26, 26, 46, 0.9);
+    box-shadow: 0 0 0 3px rgba(122, 153, 120, 0.2);
+}
+
+/* Priority option colors */
+#task-modal #task-priority option[value="low"] {
+    background-color: rgba(165, 188, 163, 0.2);
+    color: var(--forest-shadow);
+}
+
+#task-modal #task-priority option[value="medium"] {
+    background-color: rgba(216, 201, 235, 0.2);
+    color: var(--forest-shadow);
+}
+
+#task-modal #task-priority option[value="high"] {
+    background-color: rgba(255, 224, 237, 0.2);
+    color: var(--forest-shadow);
+}
+
+body.dark-theme #task-modal #task-priority option[value="low"] {
+    background-color: rgba(90, 122, 88, 0.3);
+    color: var(--eucalyptus-shade);
+}
+
+body.dark-theme #task-modal #task-priority option[value="medium"] {
+    background-color: rgba(122, 153, 120, 0.3);
+    color: var(--eucalyptus-shade);
+}
+
+body.dark-theme #task-modal #task-priority option[value="high"] {
+    background-color: rgba(179, 112, 141, 0.3);
+    color: var(--eucalyptus-shade);
+}
+
+/* Checkbox for sharing */
+#task-modal .form-group:last-of-type {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    background: rgba(245, 241, 250, 0.5);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(168, 148, 199, 0.2);
+    margin-top: 10px;
+}
+
+body.dark-theme #task-modal .form-group:last-of-type {
+    background: rgba(22, 33, 62, 0.3);
+    border-color: rgba(177, 154, 207, 0.2);
+}
+
+#task-modal .form-group:last-of-type input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--sage-depth);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+#task-modal .form-group:last-of-type input[type="checkbox"]:hover {
+    transform: scale(1.1);
+}
+
+#task-modal .form-group:last-of-type input[type="checkbox"]:checked {
+    accent-color: var(--thistle-mist);
+    box-shadow: 0 0 0 2px rgba(177, 154, 207, 0.2);
+}
+
+body.dark-theme #task-modal .form-group:last-of-type input[type="checkbox"]:checked {
+    accent-color: var(--fern-shadow);
+    box-shadow: 0 0 0 2px rgba(122, 153, 120, 0.2);
+}
+
+#task-modal .form-group:last-of-type label {
+    margin-bottom: 0;
+    color: var(--mauve-whisper);
+    cursor: pointer;
+    font-weight: 500;
+    flex: 1;
+}
+
+body.dark-theme #task-modal .form-group:last-of-type label {
+    color: var(--eucalyptus-shade);
+}
+
+#task-modal .form-group:last-of-type:hover {
+    background: rgba(229, 214, 244, 0.3);
+    border-color: var(--thistle-mist);
+}
+
+body.dark-theme #task-modal .form-group:last-of-type:hover {
+    background: rgba(42, 58, 85, 0.4);
+    border-color: var(--sage-depth);
+}
+
+/* Task modal footer buttons */
+#task-modal .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding: 20px 30px;
+    background: rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(232, 224, 248, 0.5);
+}
+
+body.dark-theme #task-modal .modal-footer {
+    background: rgba(26, 26, 46, 0.5);
+    border-color: rgba(15, 52, 96, 0.5);
+}
+
+/* Ensure both buttons have same size */
+#task-modal .modal-footer .btn-secondary,
+#task-modal .modal-footer .btn-primary {
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    min-width: 140px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+/* Cancel button styling (btn-secondary) */
+#task-modal .modal-footer .btn-secondary {
+    background: linear-gradient(135deg, var(--sage-depth) 0%, var(--fern-shadow) 100%);
+    color: white;
+    border: 1px solid rgba(255, 209, 102, 0.2);
+}
+
+#task-modal .modal-footer .btn-secondary:hover {
+    background: linear-gradient(135deg, var(--fern-shadow) 0%, var(--forest-shadow) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(122, 153, 120, 0.3);
+}
+
+/* Save Task button styling (btn-primary) */
+#task-modal .modal-footer .btn-primary {
+    background: linear-gradient(135deg, var(--lilac-breeze) 0%, var(--wisteria-dream) 100%);
+    color: white;
+    border: 1px solid rgba(255, 209, 102, 0.3);
+    box-shadow: 0 4px 15px rgba(177, 154, 207, 0.2);
+}
+
+#task-modal .modal-footer .btn-primary:hover {
+    background: linear-gradient(135deg, var(--wisteria-dream) 0%, var(--thistle-mist) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(177, 154, 207, 0.3);
+}
+
+/* Responsive adjustments for task modal */
+@media (max-width: 600px) {
+    #task-modal .modal-footer {
+        flex-direction: column;
+    }
+    
+    #task-modal .modal-footer .btn-secondary,
+    #task-modal .modal-footer .btn-primary {
+        width: 100%;
+        min-width: unset;
     }
 }

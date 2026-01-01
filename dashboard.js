@@ -537,12 +537,6 @@ function toggleTaskCompletion(e) {
             // Show celebration for completing a task
             showNotification('Task Completed!', `"${tasks[taskIndex].title}" is done!`, 'success');
             
-            // If it's a shared task, simulate friend notification
-            if (tasks[taskIndex].shared) {
-                setTimeout(() => {
-                    showNotification('Friend Update', 'A friend completed a task before you!', 'info');
-                }, 1500);
-            }
         } else {
             tasksCompleted = Math.max(0, tasksCompleted - 1);
         }
