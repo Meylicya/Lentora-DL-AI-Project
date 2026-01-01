@@ -1052,3 +1052,68 @@ if (localStorage.getItem('lentora_theme') === 'dark') {
 
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
+function createPriorityBoxes() {
+    const prioritySelect = document.getElementById('task-priority');
+    if (!prioritySelect) return;
+
+    // Create boxes container
+    const boxesContainer = document.createElement('div');
+    boxesContainer.className = 'priority-boxes';
+
+    // Define priority options
+    const priorities = [
+        { value: 'low', icon: 'fas fa-arrow-down', label: 'Low' },
+        { value: 'medium', icon: 'fas fa-equals', label: 'Medium' },
+        { value: 'high', icon: 'fas fa-arrow-up', label: 'High' }
+    ];
+
+    // Create each priority box
+    priorities.forEach(priority => {
+        const box = document.createElement('button');
+        box.type = 'button';
+        box.className = 'priority-box';
+        box.dataset.value = priority.value;
+        box.innerHTML = `
+            <i class="${priority.icon}"></i>
+            <span>${priority.label}</span>
+        `;
+
+        // Set active if matches current selection
+        if (priority.value === prioritySelect.value) {
+            box.classList.add('active');
+        }
+
+        // Handle box click
+        box.addEventListener('click', function () {
+            // Remove active class from all boxes
+            document.querySelectorAll('.priority-box').forEach(b => {
+                b.classList.remove('active');
+            });
+
+            // Add active class to clicked box
+            this.classList.add('active');
+
+            // Update the hidden select
+            prioritySelect.value = this.dataset.value;
+
+            // Trigger change event
+            prioritySelect.dispatchEvent(new Event('change'));
+
+            // Add animation effect
+            this.style.transform = 'translateY(-2px) scale(1.02)';
+            setTimeout(() => {
+                this.style.transform = 'translateY(-2px) scale(1)';
+            }, 150);
+        });
+
+        boxesContainer.appendChild(box);
+    });
+
+    // Insert boxes after the select
+    prioritySelect.parentNode.insertBefore(boxesContainer, prioritySelect.nextSibling);
+}
+// Find the end of your existing dashboard.js file
+// Add the form handling code right before the file ends
+// Make sure you're not inside another function
+
+// FORM HANDLING CODE GOES HERE AT THE END OF THE FILE

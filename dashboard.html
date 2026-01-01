@@ -350,45 +350,45 @@
         </div>
     </div>
     
-    <!-- Add Task Modal -->
-    <div class="modal" id="task-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-plus-circle"></i> Add New Task</h3>
-                <button class="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="task-form">
-                    <div class="form-group">
-                        <label for="task-title">Task Title</label>
-                        <input type="text" id="task-title" placeholder="What needs to be done?" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="task-description">Description (Optional)</label>
-                        <textarea id="task-description" placeholder="Add details about this task..." rows="3"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="task-priority">Priority</label>
-                        <select id="task-priority">
-                            <option value="low">Low</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="high">High</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            <input type="checkbox" id="task-shared">
-                            Share with friends in current session
-                        </label>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary modal-close">Cancel</button>
-                <button class="btn-primary" id="save-task">Save Task</button>
-            </div>
+ <!-- Add New Task Modal -->
+<div class="modal" id="task-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-plus-circle"></i> Add New Task</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="task-form">
+                <div class="form-group">
+                    <label for="task-title">Task Title</label>
+                    <input type="text" id="task-title" placeholder="What needs to be done?" required>
+                </div>
+                <div class="form-group">
+                    <label for="task-description">Description (Optional)</label>
+                    <textarea id="task-description" placeholder="Add details about this task..." rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="task-priority">Priority</label>
+                    <select id="task-priority">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="task-shared">
+                        Share with friends in current session
+                    </label>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary modal-close">Cancel</button>
+            <button class="btn-primary" id="save-task">Save Task</button>
         </div>
     </div>
+</div>
     
     <!-- Invitation Modal -->
     <div class="modal" id="invite-modal">
@@ -451,5 +451,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="dashboard.js"></script>
     <script src="notifications.js"></script>
+    <!-- Add this line AFTER dashboard.js in your HTML -->
+<script src="dashboard.js"></script>
+<script src="forms.js"></script>  <!-- Add this line -->
 </body>
 </html>

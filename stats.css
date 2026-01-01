@@ -1,0 +1,136 @@
+/* Your existing CSS... */
+
+/* ============================================
+   PRETTIER STATS FORM (CUSTOM DURATIONS)
+   ============================================ */
+#dashboard-modal .duration-controls {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 25px;
+    padding: 25px;
+    background: rgba(245, 241, 250, 0.4);
+    border-radius: var(--radius-lg);
+    border: 2px dashed rgba(216, 201, 235, 0.4);
+}
+
+body.dark-theme #dashboard-modal .duration-controls {
+    background: rgba(15, 52, 96, 0.2);
+    border-color: rgba(90, 122, 88, 0.3);
+}
+
+#dashboard-modal .duration-control {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#dashboard-modal .duration-control label {
+    font-size: 0.95rem;
+    color: var(--forest-shadow);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+body.dark-theme #dashboard-modal .duration-control label {
+    color: var(--sage-depth);
+}
+
+#dashboard-modal .duration-control label i {
+    color: var(--lilac-breeze);
+    font-size: 1rem;
+}
+
+#dashboard-modal .duration-control input {
+    padding: 16px;
+    border: 2px solid var(--lilac-breeze);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.9);
+    font-family: var(--body-font);
+    color: var(--forest-shadow);
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-theme #dashboard-modal .duration-control input {
+    background: rgba(26, 26, 46, 0.8);
+    border-color: var(--sage-depth);
+    color: var(--dark-text);
+}
+
+#dashboard-modal .duration-control input:focus {
+    outline: none;
+    border-color: var(--wisteria-dream);
+    box-shadow: 0 0 0 3px rgba(197, 178, 224, 0.3), 
+                0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+}
+
+#dashboard-modal .duration-control input:hover {
+    border-color: var(--wisteria-dream);
+    transform: translateY(-1px);
+}
+
+/* Duration units */
+.duration-unit {
+    position: relative;
+}
+
+.duration-unit::after {
+    content: "min";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--mauve-whisper);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+/* Apply button container */
+.duration-apply-container {
+    grid-column: span 2;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#dashboard-modal #apply-durations {
+    padding: 16px 35px;
+    background: linear-gradient(135deg, var(--sage-depth) 0%, var(--fern-shadow) 100%);
+    border: none;
+    border-radius: var(--radius-lg);
+    color: white;
+    font-family: var(--body-font);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 15px rgba(122, 153, 120, 0.2);
+}
+
+body.dark-theme #dashboard-modal #apply-durations {
+    background: linear-gradient(135deg, var(--fern-shadow) 0%, var(--forest-shadow) 100%);
+}
+
+#dashboard-modal #apply-durations:hover {
+    background: linear-gradient(135deg, var(--fern-shadow) 0%, var(--forest-shadow) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(122, 153, 120, 0.3);
+}
+
+#dashboard-modal #apply-durations:active {
+    transform: translateY(-1px);
+}
+
+#dashboard-modal #apply-durations i {
+    font-size: 1.1rem;
+}
