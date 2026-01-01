@@ -1256,7 +1256,7 @@ body.dark-theme .modal-header {
 .modal-close {
     background: none;
     border: none;
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     color: var(--forest-shadow);
     cursor: pointer;
     line-height: 1;
@@ -1268,7 +1268,9 @@ body.dark-theme .modal-close {
 }
 
 .modal-close:hover {
-    transform: rotate(90deg);
+    background: linear-gradient(135deg, var(--sage-depth) 0%, var(--moss-veil) 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--hover-shadow);
 }
 
 .modal-body {
@@ -1304,4 +1306,246 @@ background: rgba(255, 255, 255, 0.5)
 }
 body.dark-theme .modal-footer {
     background: rgba(26, 26, 46, 0.5);
+}
+
+/* ============================================ */
+/* FIX 1: Email and Message Input Styling - ONLY for invite modal */
+/* ============================================ */
+
+/* Email input styling */
+#invite-modal #friend-email {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(168, 148, 199, 0.3);
+    background-color: rgba(255, 255, 255, 0.9);
+    font-family: var(--body-font);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    color: var(--forest-shadow);
+}
+
+body.dark-theme #invite-modal #friend-email {
+    background-color: rgba(22, 33, 62, 0.7);
+    border-color: rgba(177, 154, 207, 0.3);
+    color: var(--dark-text);
+}
+
+#invite-modal #friend-email:focus {
+    outline: none;
+    border-color: var(--thistle-mist);
+    box-shadow: 0 0 0 3px rgba(177, 154, 207, 0.2);
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Message textarea styling */
+#invite-modal #invite-message {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(168, 148, 199, 0.3);
+    background-color: rgba(255, 255, 255, 0.9);
+    font-family: var(--body-font);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    color: var(--forest-shadow);
+    resize: vertical;
+    min-height: 80px;
+}
+
+body.dark-theme #invite-modal #invite-message {
+    background-color: rgba(22, 33, 62, 0.7);
+    border-color: rgba(177, 154, 207, 0.3);
+    color: var(--dark-text);
+}
+
+#invite-modal #invite-message:focus {
+    outline: none;
+    border-color: var(--thistle-mist);
+    box-shadow: 0 0 0 3px rgba(177, 154, 207, 0.2);
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Placeholder styling */
+#invite-modal #friend-email::placeholder,
+#invite-modal #invite-message::placeholder {
+    color: var(--mauve-whisper);
+    opacity: 0.7;
+}
+
+body.dark-theme #invite-modal #friend-email::placeholder,
+body.dark-theme #invite-modal #invite-message::placeholder {
+    color: var(--eucalyptus-shade);
+}
+
+/* ============================================ */
+/* FIX 2: Cancel and Invite Button Layout - ONLY for invite modal */
+/* ============================================ */
+
+/* Fix modal footer layout */
+#invite-modal .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding: 20px 30px;
+    background: rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(232, 224, 248, 0.5);
+}
+
+body.dark-theme #invite-modal .modal-footer {
+    background: rgba(26, 26, 46, 0.5);
+    border-color: rgba(15, 52, 96, 0.5);
+}
+
+/* Ensure both buttons have same size */
+#invite-modal .modal-footer .btn-secondary {
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    min-width: 140px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    background: linear-gradient(135deg, var(--sage-depth) 0%, var(--fern-shadow) 100%);
+    color: white;
+    border: 1px solid rgba(255, 209, 102, 0.2);
+}
+
+#invite-modal .modal-footer .btn-primary {
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    min-width: 140px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    background: linear-gradient(135deg, var(--lilac-breeze) 0%, var(--wisteria-dream) 100%);
+    color: white;
+    border: 1px solid rgba(255, 209, 102, 0.3);
+    box-shadow: 0 4px 15px rgba(177, 154, 207, 0.2);
+}
+
+#invite-modal .modal-footer .btn-secondary:hover {
+    background: linear-gradient(135deg, var(--fern-shadow) 0%, var(--forest-shadow) 100%);
+}
+
+#invite-modal .modal-footer .btn-primary:hover {
+    background: linear-gradient(135deg, var(--wisteria-dream) 0%, var(--thistle-mist) 100%);
+}
+
+/* ============================================ */
+/* ENHANCEMENT: Tasteful Green Hover for Modal Close Buttons */
+/* ============================================ */
+
+/* Keep all original modal-close styling but enhance hover with tasteful green */
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--forest-shadow);
+    cursor: pointer;
+    line-height: 1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.dark-theme .modal-close {
+    color: var(--sage-depth);
+}
+
+/* Tasteful green hover effect inspired by nature theme */
+.modal-close:hover {
+    background: linear-gradient(135deg, var(--sage-depth) 0%, var(--fern-shadow) 100%);
+    color: white !important;
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 4px 12px rgba(122, 153, 120, 0.3);
+}
+
+/* Dark theme adjustment */
+body.dark-theme .modal-close:hover {
+    background: linear-gradient(135deg, var(--fern-shadow) 0%, var(--forest-shadow) 100%);
+    box-shadow: 0 4px 12px rgba(90, 122, 88, 0.4);
+}
+
+/* Ensure this doesn't affect notification close buttons if they have different class */
+.notification-close,
+.notification .close {
+    transition: var(--transition-fast);
+}
+
+/* ============================================ */
+/* Additional fixes for share link in invite modal */
+/* ============================================ */
+
+#invite-modal .share-options {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(232, 224, 248, 0.5);
+}
+
+#invite-modal .share-options p {
+    color: var(--mauve-whisper);
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+#invite-modal .share-link {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#invite-modal .share-link input {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(168, 148, 199, 0.3);
+    background-color: rgba(255, 255, 255, 0.9);
+    font-family: var(--body-font);
+    font-size: 0.95rem;
+    color: var(--mauve-whisper);
+}
+
+body.dark-theme #invite-modal .share-link input {
+    background-color: rgba(22, 33, 62, 0.7);
+    border-color: rgba(177, 154, 207, 0.3);
+    color: var(--dark-text);
+}
+
+#invite-modal .btn-copy {
+    padding: 12px 20px;
+    background: var(--golden-sun);
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+#invite-modal .btn-copy:hover {
+    background: linear-gradient(135deg, #FFC145 0%, #FF9D2E 100%);
 }
