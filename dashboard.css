@@ -767,7 +767,7 @@ body.dark-theme .phase-option.active {
     opacity: 0.8;
 }
 
-/* Custom Durations */
+/* Custom Durations - ALIGNMENT FIX */
 .custom-durations {
     width: 100%;
     max-width: 500px;
@@ -796,37 +796,83 @@ body.dark-theme .custom-durations h4 {
     color: var(--sage-depth);
 }
 
+/* FIXED: Duration Controls Alignment */
 .duration-controls {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     gap: 15px;
+    align-items: flex-end;
+    justify-content: space-between;
 }
 
 .duration-control {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    flex: 1;
+    min-width: 120px;
 }
 
 .duration-control label {
     font-size: 0.9rem;
     color: var(--mauve-whisper);
+    font-weight: 500;
+    white-space: nowrap;
 }
 
 .duration-control input {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid var(--lilac-breeze);
     border-radius: var(--radius-md);
     background: var(--petal-white);
     font-family: var(--body-font);
     color: var(--forest-shadow);
     text-align: center;
+    width: 100%;
+    font-size: 1rem;
+    transition: var(--transition-fast);
+}
+
+.duration-control input:focus {
+    outline: none;
+    border-color: var(--wisteria-dream);
+    box-shadow: 0 0 0 3px rgba(216, 201, 235, 0.3);
 }
 
 body.dark-theme .duration-control input {
     background: var(--dark-container);
     border-color: var(--dark-accent);
     color: var(--dark-text);
+}
+
+/* Apply button styling - now properly aligned */
+#apply-durations {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--sage-depth) 0%, var(--fern-shadow) 100%);
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    font-family: var(--body-font);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-medium);
+    min-height: 44px;
+    flex-shrink: 0;
+    margin-top: 8px; /* Aligns with input fields */
+}
+
+#apply-durations:hover {
+    background: linear-gradient(135deg, var(--fern-shadow) 0%, var(--forest-shadow) 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--hover-shadow);
+}
+
+#apply-durations:active {
+    transform: translateY(0);
 }
 
 /* Messages */

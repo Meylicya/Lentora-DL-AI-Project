@@ -325,9 +325,12 @@ function skipTimer() {
     isRunning = false;
     startPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Start</span>';
     
+    // If we're skipping a focus session, we should NOT count it as completed
+    // Only count completed sessions when they actually finish
     completeTimer(true);
 }
 
+// Complete the current timer phase
 // Complete the current timer phase
 function completeTimer(skipped = false) {
     clearInterval(timer);
@@ -338,7 +341,7 @@ function completeTimer(skipped = false) {
         if (currentTimerType === 'focus') {
             sessionEndSound.play();
             
-            // Update stats
+            // Only increment session count when a focus session actually completes
             sessionsCompleted++;
             totalFocusTime += settings.focusDuration;
             updateStats();
@@ -356,8 +359,6 @@ function completeTimer(skipped = false) {
     
     // Determine next phase
     if (currentTimerType === 'focus') {
-        sessionsCompleted++;
-        
         // Check if it's time for a long break
         if (sessionsCompleted % settings.longBreakInterval === 0) {
             currentTimerType = 'longBreak';
@@ -367,11 +368,20 @@ function completeTimer(skipped = false) {
             timeRemaining = settings.shortBreakDuration * 60;
         }
         
-        // Update session counter
+        // Update session counter - shows current session in cycle (1-4)
+        // This should be based on sessionsCompleted, but mod 4 to show 1-4
         sessionNumber.textContent = (sessionsCompleted % settings.longBreakInterval) + 1;
     } else {
         currentTimerType = 'focus';
         timeRemaining = settings.focusDuration * 60;
+        
+        // When moving from break to focus, don't increment session count
+        // Session number should stay the same until focus session completes
+        // Actually, we need to think about this - if we just finished break 1,
+        // we're about to start focus session 2, so sessionNumber should be 2
+        // But sessionsCompleted is 1 (completed session 1)
+        // So sessionNumber should be sessionsCompleted + 1
+        sessionNumber.textContent = sessionsCompleted + 1;
     }
     
     updateTimerDisplay();
