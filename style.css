@@ -477,15 +477,6 @@ body {
     font-style: italic;
 }
 
-/* Footer */
-.footer {
-    text-align: center;
-    padding: 20px 0;
-    color: var(--mauve-whisper);
-    font-size: 0.9rem;
-    margin-top: auto;
-}
-
 /* Modal */
 .modal {
     display: none;
