@@ -1056,3 +1056,178 @@ if (localStorage.getItem('lentora_theme') === 'dark') {
 
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
+
+// ============================================
+// FIX: MOBILE DROPDOWN WITH REAL CONTENT
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+  const sidebar = document.querySelector('.sidebar');
+  const compactToggle = document.querySelector('.compact-toggle');
+  const dropdownContent = document.querySelector('.sidebar-dropdown-content');
+  const chevronIcon = compactToggle?.querySelector('i');
+  
+  if (!compactToggle || !dropdownContent) return;
+  
+  // Check if mobile view
+  function isMobileView() {
+    return window.innerWidth <= 1200;
+  }
+  
+  // Initialize state
+  let isExpanded = false;
+  
+  // Set initial visibility
+  function initializeVisibility() {
+    const mobile = isMobileView();
+    
+    if (mobile) {
+      // Mobile: collapsed by default
+      dropdownContent.classList.remove('expanded');
+      compactToggle.classList.remove('expanded');
+      isExpanded = false;
+      compactToggle.setAttribute('aria-expanded', 'false');
+      if (chevronIcon) chevronIcon.style.transform = 'rotate(0deg)';
+      console.log('Mobile: Dropdown collapsed by default');
+    } else {
+      // Desktop: always visible
+      dropdownContent.classList.add('expanded');
+      compactToggle.classList.add('expanded');
+      isExpanded = true;
+      compactToggle.setAttribute('aria-expanded', 'true');
+      if (chevronIcon) chevronIcon.style.transform = 'rotate(180deg)';
+      console.log('Desktop: All content visible');
+    }
+  }
+  
+  // Toggle dropdown
+  function toggleDropdown() {
+    if (!isMobileView()) return;
+    
+    isExpanded = !isExpanded;
+    
+    dropdownContent.classList.toggle('expanded', isExpanded);
+    compactToggle.classList.toggle('expanded', isExpanded);
+    compactToggle.setAttribute('aria-expanded', isExpanded);
+    
+    if (chevronIcon) {
+      chevronIcon.style.transform = isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
+    
+    console.log('Dropdown toggled:', isExpanded ? 'open' : 'closed');
+  }
+  
+  // Initialize
+  initializeVisibility();
+  
+  // Toggle on click
+  compactToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleDropdown();
+  });
+  
+  // Handle resize
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(initializeVisibility, 150);
+  });
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(event) {
+    if (!isMobileView() || !isExpanded) return;
+    
+    const isClickInSidebar = event.target.closest('.sidebar');
+    const isClickOnToggle = event.target.closest('.compact-toggle');
+    
+    if (!isClickInSidebar && !isClickOnToggle) {
+      toggleDropdown();
+    }
+  });
+  
+  // Accessibility
+  compactToggle.setAttribute('role', 'button');
+  compactToggle.setAttribute('tabindex', '0');
+  
+  compactToggle.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      toggleDropdown();
+    }
+  });
+});
+
+// Add this to your dashboard.js or create a new mobile-toggle.js
+document.addEventListener('DOMContentLoaded', function() {
+  const compactToggle = document.querySelector('.compact-toggle');
+  const dropdownContent = document.querySelector('.sidebar-dropdown-content');
+  
+  if (!compactToggle || !dropdownContent) return;
+  
+  compactToggle.addEventListener('click', function() {
+    const isExpanded = dropdownContent.classList.toggle('expanded');
+    this.classList.toggle('expanded', isExpanded);
+    this.setAttribute('aria-expanded', isExpanded);
+  });
+});
+
+// ============================================ 
+// SAFETY CHECK: Ensure toggle is hidden on desktop
+// ============================================ 
+
+document.addEventListener('DOMContentLoaded', function() {
+  const compactToggle = document.querySelector('.compact-toggle');
+  
+  if (!compactToggle) return;
+  
+  function checkAndHideToggle() {
+    const isDesktop = window.innerWidth >= 1201;
+    
+    if (isDesktop) {
+      // Force hide on desktop with inline styles
+      compactToggle.style.display = 'none';
+      compactToggle.style.visibility = 'hidden';
+      compactToggle.style.opacity = '0';
+      compactToggle.style.position = 'absolute';
+      compactToggle.style.zIndex = '-1000';
+      compactToggle.style.pointerEvents = 'none';
+    } else {
+      // Restore on mobile
+      compactToggle.style.display = 'flex';
+      compactToggle.style.visibility = 'visible';
+      compactToggle.style.opacity = '1';
+      compactToggle.style.position = 'absolute';
+      compactToggle.style.zIndex = '10';
+      compactToggle.style.pointerEvents = 'auto';
+    }
+  }
+  
+  // Check on load and resize
+  checkAndHideToggle();
+  window.addEventListener('resize', checkAndHideToggle);
+});
+
+// Add to your existing toggle handler
+document.addEventListener('DOMContentLoaded', function() {
+  const compactToggle = document.querySelector('.compact-toggle');
+  const dropdownContent = document.querySelector('.sidebar-dropdown-content');
+  
+  if (!compactToggle || !dropdownContent) return;
+  
+  // Store original position
+  const originalTransform = compactToggle.style.transform;
+  
+  compactToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    // Prevent any layout shift during toggle
+    requestAnimationFrame(() => {
+      const isExpanded = dropdownContent.classList.toggle('expanded');
+      compactToggle.classList.toggle('expanded', isExpanded);
+      compactToggle.setAttribute('aria-expanded', isExpanded);
+      
+      // Force arrow to stay in position
+      compactToggle.style.transform = 'translateY(-50%)';
+    });
+  });
+});

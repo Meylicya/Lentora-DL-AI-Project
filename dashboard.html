@@ -15,114 +15,134 @@
     <div class="container">
         <!-- Sidebar -->
         <aside class="sidebar">
+            <!-- Mobile-only compact header (hidden on desktop via CSS) -->
+            <div class="sidebar-compact-header">
+  <div class="compact-header-content">
+    <div class="compact-logo">
+      <i class="fas fa-seedling"></i>
+      <h1>Lentora</h1>
+    </div>
+    <p class="compact-slogan">Bloom in time, flourish in focus</p>
+  </div>
+  <button class="compact-toggle" aria-label="Toggle sidebar dropdown">
+    <i class="fas fa-chevron-down"></i>
+  </button>
+</div>
+
+
+            <!-- Desktop header (hidden on mobile via CSS) -->
             <div class="sidebar-header">
-                <div class="logo">
-                    <h1><i class="fas fa-seedling"></i> Lentora</h1>
-                    <p class="slogan">Bloom in time, flourish in focus</p>
-                </div>
-                <button class="sidebar-toggle" id="sidebar-toggle">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-            </div>
-            
-            <!-- User Profile -->
-            <div class="user-profile">
-                <div class="user-avatar">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-                <div class="user-info">
-                    <h3 id="user-name">Guest User</h3>
-                    <p id="user-email">guest@lentora.com</p>
-                </div>
-                <button class="theme-toggle" id="theme-toggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
-            
-            <!-- Ambient Sounds -->
-            <div class="sidebar-section">
-                <h3><i class="fas fa-music"></i> Ambient Sounds</h3>
-                <div class="sound-options">
-                    <div class="sound-option" data-sound="rain">
-                        <i class="fas fa-cloud-rain"></i>
-                        <span>Gentle Rain</span>
-                        <div class="sound-control">
-                            <input type="range" min="0" max="100" value="0" class="volume-slider">
-                            <i class="fas fa-volume-mute"></i>
-                        </div>
+  <div class="desktop-header-content">
+    <h1><i class="fas fa-seedling"></i> Lentora</h1>
+    <p class="slogan">Bloom in time, flourish in focus</p>
+  </div>
+  <button class="sidebar-toggle" id="sidebar-toggle">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+</div>
+
+            <!-- Mobile Dropdown Container (wraps ALL sidebar content) -->
+           <div class="sidebar-dropdown-content" id="sidebarDropdownContent">
+                <!-- User Profile -->
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
                     </div>
-                    <div class="sound-option" data-sound="forest">
-                        <i class="fas fa-tree"></i>
-                        <span>Forest Birds</span>
-                        <div class="sound-control">
-                            <input type="range" min="0" max="100" value="0" class="volume-slider">
-                            <i class="fas fa-volume-mute"></i>
-                        </div>
+                    <div class="user-info">
+                        <h3 id="user-name">Guest User</h3>
+                        <p id="user-email">guest@lentora.com</p>
                     </div>
-                    <div class="sound-option" data-sound="stream">
-                        <i class="fas fa-water"></i>
-                        <span>Flowing Stream</span>
-                        <div class="sound-control">
-                            <input type="range" min="0" max="100" value="0" class="volume-slider">
-                            <i class="fas fa-volume-mute"></i>
-                        </div>
-                    </div>
-                    <div class="sound-option" data-sound="wind">
-                        <i class="fas fa-wind"></i>
-                        <span>Soft Wind</span>
-                        <div class="sound-control">
-                            <input type="range" min="0" max="100" value="0" class="volume-slider">
-                            <i class="fas fa-volume-mute"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Session Stats -->
-            <div class="sidebar-section">
-                <h3><i class="fas fa-chart-pie"></i> Today's Stats</h3>
-                <div class="stats-container">
-                    <div class="stat-item">
-                        <span class="stat-value" id="sessions-today">0</span>
-                        <span class="stat-label">Sessions</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value" id="focus-time-today">0m</span>
-                        <span class="stat-label">Focus Time</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value" id="tasks-completed">0</span>
-                        <span class="stat-label">Tasks Done</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Motivational Quotes -->
-            <div class="sidebar-section">
-                <h3><i class="fas fa-quote-left"></i> Garden Wisdom</h3>
-                <div class="quote-container">
-                    <p class="quote-text" id="current-quote">"The secret of getting ahead is getting started."</p>
-                    <p class="quote-author">- Mark Twain</p>
-                </div>
-                <button class="btn-small" id="new-quote">
-                    <i class="fas fa-sync-alt"></i> New Quote
-                </button>
-            </div>
-            
-            <!-- Invite Friend -->
-            <div class="sidebar-section">
-                <h3><i class="fas fa-user-friends"></i> Focus Together</h3>
-                <p class="section-text">Invite a friend to join your focus session</p>
-                <button class="btn-invite" id="invite-friend">
-                    <i class="fas fa-envelope"></i> Send Invitation
-                </button>
-                <div class="share-link">
-                    <input type="text" id="session-link" value="https://lentora.com/session/abc123" readonly>
-                    <button class="btn-copy" id="copy-link">
-                        <i class="fas fa-copy"></i>
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
                     </button>
                 </div>
+                
+                <!-- Ambient Sounds -->
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-music"></i> Ambient Sounds</h3>
+                    <div class="sound-options">
+                        <div class="sound-option" data-sound="rain">
+                            <i class="fas fa-cloud-rain"></i>
+                            <span>Gentle Rain</span>
+                            <div class="sound-control">
+                                <input type="range" min="0" max="100" value="0" class="volume-slider">
+                                <i class="fas fa-volume-mute"></i>
+                            </div>
+                        </div>
+                        <div class="sound-option" data-sound="forest">
+                            <i class="fas fa-tree"></i>
+                            <span>Forest Birds</span>
+                            <div class="sound-control">
+                                <input type="range" min="0" max="100" value="0" class="volume-slider">
+                                <i class="fas fa-volume-mute"></i>
+                            </div>
+                        </div>
+                        <div class="sound-option" data-sound="stream">
+                            <i class="fas fa-water"></i>
+                            <span>Flowing Stream</span>
+                            <div class="sound-control">
+                                <input type="range" min="0" max="100" value="0" class="volume-slider">
+                                <i class="fas fa-volume-mute"></i>
+                            </div>
+                        </div>
+                        <div class="sound-option" data-sound="wind">
+                            <i class="fas fa-wind"></i>
+                            <span>Soft Wind</span>
+                            <div class="sound-control">
+                                <input type="range" min="0" max="100" value="0" class="volume-slider">
+                                <i class="fas fa-volume-mute"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Session Stats -->
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-chart-pie"></i> Today's Stats</h3>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-value" id="sessions-today">0</span>
+                            <span class="stat-label">Sessions</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="focus-time-today">0m</span>
+                            <span class="stat-label">Focus Time</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="tasks-completed">0</span>
+                            <span class="stat-label">Tasks Done</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Motivational Quotes -->
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-quote-left"></i> Garden Wisdom</h3>
+                    <div class="quote-container">
+                        <p class="quote-text" id="current-quote">"The secret of getting ahead is getting started."</p>
+                        <p class="quote-author">- Mark Twain</p>
+                    </div>
+                    <button class="btn-small" id="new-quote">
+                        <i class="fas fa-sync-alt"></i> New Quote
+                    </button>
+                </div>
+                
+                <!-- Invite Friend -->
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-user-friends"></i> Focus Together</h3>
+                    <p class="section-text">Invite a friend to join your focus session</p>
+                    <button class="btn-invite" id="invite-friend">
+                        <i class="fas fa-envelope"></i> Send Invitation
+                    </button>
+                    <div class="share-link">
+                        <input type="text" id="session-link" value="https://lentora.com/session/abc123" readonly>
+                        <button class="btn-copy" id="copy-link">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
+            <!-- End of sidebar-dropdown-content -->
         </aside>
         
         <!-- Main Content -->
