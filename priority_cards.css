@@ -1,0 +1,132 @@
+priority-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 15px 0 25px 0;
+}
+
+.priority-card {
+    padding: 20px 15px;
+    border: 2px solid var(--lilac-breeze);
+    border-radius: var(--radius-lg);
+    background: var(--petal-white);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    position: relative;
+    overflow: hidden;
+}
+
+body.dark-theme .priority-card {
+    background: var(--dark-container);
+    border-color: var(--dark-accent);
+}
+
+.priority-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.priority-card.active {
+    border-width: 3px;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Card icon */
+.priority-icon {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-full);
+    margin-bottom: 12px;
+}
+
+/* Card label */
+.priority-label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--forest-shadow);
+    margin-bottom: 5px;
+}
+
+body.dark-theme .priority-label {
+    color: var(--dark-text);
+}
+
+/* Card description */
+.priority-desc {
+    font-size: 0.85rem;
+    color: var(--mauve-whisper);
+    opacity: 0.8;
+    line-height: 1.3;
+}
+
+/* Low Priority Card */
+.priority-card[data-value="low"] {
+    border-color: rgba(32, 180, 22, 0.3);
+    background: linear-gradient(135deg, rgba(94, 194, 85, 0.797), rgba(122, 153, 120, 0.1));
+}
+
+.priority-card[data-value="low"] .priority-icon {
+    background: rgba(128, 170, 125, 0.421);
+    color: var(--forest-shadow);
+}
+
+.priority-card[data-value="low"] .priority-label {
+    color: var(--forest-shadow);
+}
+
+.priority-card[data-value="low"].active {
+    border-color: var(--forest-shadow);
+    background: linear-gradient(135deg, rgba(165, 219, 161, 0.16), rgba(78, 231, 86, 0.761));
+}
+
+/* Medium Priority Card */
+.priority-card[data-value="medium"] {
+    border-color: rgba(209, 113, 39, 0.3);
+    background: linear-gradient(135deg, rgb(243, 150, 21), rgba(189, 153, 119, 0.1));
+}
+
+.priority-card[data-value="medium"] .priority-icon {
+    background: rgba(177, 154, 207, 0.15);
+    color: var(--thistle-mist);
+}
+
+.priority-card[data-value="medium"] .priority-label {
+    color: var(--thistle-mist);
+}
+
+.priority-card[data-value="medium"].active {
+    border-color: var(--thistle-mist);
+    background: linear-gradient(135deg, rgba(220, 184, 137, 0.1), rgba(232, 150, 62, 0.881));
+}
+
+/* High Priority Card */
+.priority-card[data-value="high"] {
+    border-color: rgba(43, 2, 4, 0.3);
+    background: linear-gradient(135deg, rgba(194, 152, 165, 0.278), rgba(200, 12, 90, 0.901));
+}
+
+.priority-card[data-value="high"] .priority-icon {
+    background: rgba(200, 12, 90, 0.901);
+    color: var(--peach-blossom);
+}
+
+.priority-card[data-value="high"] .priority-label {
+    color: var(--peach-blossom);
+}
+
+.priority-card[data-value="high"].active {
+    border-color: var(--peach-blossom);
+    background: linear-gradient(135deg, rgba(166, 104, 130, 0.1), rgba(200, 12, 90, 0.901));
+}
