@@ -1060,12 +1060,7 @@ function createPriorityBoxes() {
     const boxesContainer = document.createElement('div');
     boxesContainer.className = 'priority-boxes';
 
-    // Define priority options
-    const priorities = [
-        { value: 'low', icon: 'fas fa-arrow-down', label: 'Low' },
-        { value: 'medium', icon: 'fas fa-equals', label: 'Medium' },
-        { value: 'high', icon: 'fas fa-arrow-up', label: 'High' }
-    ];
+    
 
     // Create each priority box
     priorities.forEach(priority => {

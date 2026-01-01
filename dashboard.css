@@ -42,7 +42,7 @@
     --radius-lg: 16px;
     --radius-xl: 24px;
     --radius-full: 50%;
-}/* Add this AFTER your :root variables but BEFORE body styles */
+}
 
 /* ANIMATIONS */
 @keyframes fadeIn {
@@ -834,9 +834,7 @@ body.dark-theme .duration-control input {
     background: var(--dark-container);
     border-color: var(--dark-accent);
     color: var(--dark-text);
-}/* ============================================
-   TASK FORM INPUT STYLING
-   ============================================ */
+}
 
 /* Specific task form inputs */
 #task-title,
@@ -881,7 +879,7 @@ body.dark-theme #task-priority:focus {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23B19ACF' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 18px center;
-    background-size: 16px;
+    background-size: 20px;
     padding-right: 45px;
     cursor: pointer;
 }
@@ -891,8 +889,8 @@ body.dark-theme #task-priority {
 }
 /* Checkbox styling */
 #task-shared {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     margin-right: 10px;
     cursor: pointer;
     accent-color: var(--sage-depth);
@@ -1193,10 +1191,10 @@ body.dark-theme .todo-title {
     align-self: flex-start;
 }
 
+
 .todo-priority.low {
     background: rgba(165, 188, 163, 0.3);
-    color: var(--eucalyptus-shade);
-}
+    color: var(--eucalyptus-shade);}
 
 .todo-priority.medium {
     background: rgba(216, 201, 235, 0.3);
@@ -1479,7 +1477,7 @@ body.dark-theme #task-priority {
 
 /* Custom dropdown arrow */
 .priority-select-wrapper::after {
-    content: "▼";
+    
     position: absolute;
     right: 18px;
     top: 50%;
