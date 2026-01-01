@@ -3532,4 +3532,54 @@ body.dark-theme .sidebar-toggle:hover {
     box-shadow: 0 0 15px rgba(157, 142, 199, 0.4);
 }
 
+/* ============================================ */
+/* COMPLETE TIMER FIX - One solution */
+/* ============================================ */
 
+/* 1. Make the SVG responsive */
+.progress-ring svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+/* 2. Make container responsive but keep original proportions */
+.progress-ring {
+    position: relative;
+    width: clamp(220px, 60vw, 420px);
+    height: clamp(220px, 60vw, 420px);
+    margin: 0 auto;
+}
+
+/* 3. Keep EXACT original circle styling */
+.progress-ring-circle {
+    stroke: var(--lilac-breeze);
+    stroke-linecap: round;
+    stroke-width: 10;
+    fill: transparent;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+/* 4. Keep dark theme styling */
+body.dark-theme .progress-ring-circle {
+    stroke: var(--lilac-breeze);
+    filter: drop-shadow(0 0 5px rgba(109, 93, 149, 0.4));
+}
+
+/* 5. Timer text scales with circle */
+.time-left {
+    font-size: clamp(2.5rem, 12vw, 7.5rem);
+    font-weight: 1000;
+    color: var(--mauve-whisper);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.timer-label {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--mauve-whisper);
+    margin-top: 10px;
+    letter-spacing: 2px;
+}
