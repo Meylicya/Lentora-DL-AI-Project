@@ -373,7 +373,7 @@ body {
 .btn-auth {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, var(--lilac-breeze) 0%, var(--wisteria-dream) 100%);
+    background: linear-gradient(135deg, var(--lilac-breeze) 0%, var(--lilac-breeze) 100%);
     border: none;
     border-radius: var(--radius-md);
     color: white;

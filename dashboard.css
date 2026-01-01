@@ -1,6 +1,6 @@
 /* Base Styles - extending from index.css */
 :root {
-    /* Same variables as index.css */
+    /* Light theme variables - DEFAULT ONLY */
     --morning-dew: #FBF9FD;
     --lavender-mist: #F8F5FC;
     --petal-white: #F5F1FA;
@@ -19,14 +19,6 @@
     --golden-sun: linear-gradient(135deg, #FFD166 0%, #FFB347 50%, #FF8C42 100%);
     --golden-light: #FFD166;
     
-    /* Enhanced dark theme variables - now comprehensive */
-    --dark-bg: #1a1a2e;
-    --dark-container: #16213e;
-    --dark-accent: #0f3460;
-    --dark-text: #e6e6e6;
-    --dark-border: rgba(15, 52, 96, 0.5);
-    --dark-surface: rgba(26, 26, 46, 0.85);
-    
     /* Typography */
     --heading-font: 'Playfair Display', serif;
     --body-font: 'Nunito', sans-serif;
@@ -34,7 +26,6 @@
     /* Shadows */
     --soft-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     --hover-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    --dark-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     
     /* Transitions */
     --transition-fast: 0.2s ease;
@@ -56,55 +47,13 @@
     --spacing-xl: 32px;
 }
 
-/* Dark Theme - Consolidated and improved dark mode */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --morning-dew: #1a1a2e;
-        --lavender-mist: #16213e;
-        --petal-white: #1e0f60;
-        --whisper-cloud: #1a3a5f;
-        --lilac-breeze: #3a506b;
-        --wisteria-dream: #4a6180;
-        --thistle-mist: #5a7295;
-        --orchid-glow: #2a3a55;
-        --mauve-whisper: #7a8cb3;
-        --forest-shadow: #7a9978;
-        --sage-depth: #9ab398;
-        --moss-veil: #5a7a58;
-        --fern-shadow: #688a66;
-        --eucalyptus-shade: #a5bca3;
-        --peach-blossom: #b3708d;
-        color-scheme: dark;
-    }
-}
-
-body.dark-theme {
-    --morning-dew: #1a1a2e;
-    --lavender-mist: #16213e;
-    --petal-white: #1e0f60;
-    --whisper-cloud: #1a3a5f;
-    --lilac-breeze: #3a506b;
-    --wisteria-dream: #4a6180;
-    --thistle-mist: #5a7295;
-    --orchid-glow: #2a3a55;
-    --mauve-whisper: #7a8cb3;
-    --forest-shadow: #7a9978;
-    --sage-depth: #9ab398;
-    --moss-veil: #5a7a58;
-    --fern-shadow: #688a66;
-    --eucalyptus-shade: #a5bca3;
-    --peach-blossom: #b3708d;
-    color: var(--dark-text);
-    color-scheme: dark;
-}
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body with reduced redundancy - combined background styles */
+/* Body styles - Light mode only */
 body {
     font-family: var(--body-font);
     background: linear-gradient(135deg, #fbfbfb 0%, #d0e9ce 25%, #fbf3fd 50%, #dfeede 75%, #c3afd6 100%);
@@ -117,19 +66,6 @@ body {
     transition: background var(--transition-medium), color var(--transition-medium);
 }
 
-body.dark-theme {
-    background: linear-gradient(
-        135deg,
-        #111318 0%,
-        #1c3126 25%,
-        #1a1324 50%,
-        #20352a 75%,
-        #342543 100%
-    );
-    background-attachment: fixed;
-    background-size: cover;
-}
-
 .container {
     display: flex;
     min-height: 100vh;
@@ -140,20 +76,20 @@ body.dark-theme {
 .sidebar {
     width: 320px;
     min-width: 280px;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    border-right: 1px solid rgba(232, 224, 248, 0.5);
+    background: rgba(251, 251, 251, 0.82); /* #fbfbfb from your gradient */
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-right: 1px solid rgba(208, 233, 206, 0.35); /* #d0e9ce */
+    box-shadow: 
+        inset 0 0 80px rgba(195, 175, 214, 0.25), /* #c3afd6 */
+        inset 0 0 20px rgba(223, 238, 222, 0.2), /* #dfeede */
+        2px 0 15px rgba(195, 175, 214, 0.1);
     display: flex;
     flex-direction: column;
     padding: var(--spacing-lg);
     transition: var(--transition-medium);
     z-index: 10;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-}
-
-body.dark-theme .sidebar {
-    background: var(--dark-surface);
-    border-right: 1px solid var(--dark-border);
 }
 
 .sidebar.collapsed {
@@ -210,10 +146,6 @@ body.dark-theme .sidebar {
     gap: var(--spacing-sm);
 }
 
-body.dark-theme .sidebar-header h1 {
-    color: var(--sage-depth);
-}
-
 .slogan {
     font-size: 0.9rem;
     color: var(--mauve-whisper);
@@ -250,10 +182,6 @@ body.dark-theme .sidebar-header h1 {
     border-radius: var(--radius-lg);
 }
 
-body.dark-theme .user-profile {
-    background: rgba(15, 52, 96, 0.3);
-}
-
 .user-avatar {
     font-size: 2.5rem;
     color: var(--sage-depth);
@@ -263,10 +191,6 @@ body.dark-theme .user-profile {
     font-size: 1.1rem;
     color: var(--forest-shadow);
     margin-bottom: 3px;
-}
-
-body.dark-theme .user-info h3 {
-    color: var(--eucalyptus-shade);
 }
 
 .user-info p {
@@ -315,10 +239,6 @@ body.dark-theme .user-info h3 {
     font-size: 1.2rem;
 }
 
-body.dark-theme .sidebar-section h3 {
-    color: var(--sage-depth);
-}
-
 /* Sound Options */
 .sound-options {
     display: flex;
@@ -335,10 +255,6 @@ body.dark-theme .sidebar-section h3 {
     border-radius: var(--radius-md);
     transition: var(--transition-fast);
     cursor: pointer;
-}
-
-body.dark-theme .sound-option {
-    background: rgba(15, 52, 96, 0.3);
 }
 
 .sound-option:hover {
@@ -413,18 +329,10 @@ body.dark-theme .sound-option {
     border-radius: var(--radius-md);
 }
 
-body.dark-theme .stat-item {
-    background: rgba(15, 52, 96, 0.3);
-}
-
 .stat-value {
     font-size: clamp(1.5rem, 3vw, 1.8rem);
     font-weight: 700;
     color: var(--forest-shadow);
-}
-
-body.dark-theme .stat-value {
-    color: var(--sage-depth);
 }
 
 .stat-label {
@@ -440,10 +348,6 @@ body.dark-theme .stat-value {
     border-radius: var(--radius-md);
     margin-bottom: var(--spacing-md);
     border-left: 3px solid var(--orchid-glow);
-}
-
-body.dark-theme .quote-container {
-    background: rgba(15, 52, 96, 0.3);
 }
 
 .quote-text {
@@ -529,12 +433,6 @@ body.dark-theme .quote-container {
     font-size: 0.9rem;
 }
 
-body.dark-theme .share-link input {
-    background: var(--dark-container);
-    border-color: var(--dark-accent);
-    color: var(--dark-text);
-}
-
 .btn-copy {
     padding: var(--spacing-sm) var(--spacing-md);
     background: var(--golden-sun);
@@ -602,10 +500,6 @@ body.dark-theme .share-link input {
     color: var(--forest-shadow);
 }
 
-body.dark-theme #session-number {
-    color: var(--sage-depth);
-}
-
 .date-display {
     display: flex;
     align-items: center;
@@ -636,11 +530,6 @@ body.dark-theme #session-number {
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition-fast);
-}
-
-body.dark-theme .btn-icon {
-    background: var(--dark-accent);
-    color: var(--dark-text);
 }
 
 .btn-icon:hover {
@@ -695,10 +584,6 @@ body.dark-theme .btn-icon {
     color: var(--mauve-whisper);
     font-variant-numeric: tabular-nums;
     line-height: 1;
-}
-
-body.dark-theme .time-left {
-    color: var(--sage-depth);
 }
 
 .timer-label {
@@ -756,10 +641,6 @@ body.dark-theme .time-left {
     max-width: 500px;
 }
 
-body.dark-theme .phase-toggle {
-    background: rgba(15, 52, 96, 0.3);
-}
-
 .phase-option {
     flex: 1;
     min-width: 120px;
@@ -787,10 +668,6 @@ body.dark-theme .phase-toggle {
     color: var(--forest-shadow);
 }
 
-body.dark-theme .phase-option.active {
-    color: var(--dark-text);
-}
-
 .phase-option i {
     font-size: 1.2rem;
 }
@@ -812,11 +689,6 @@ body.dark-theme .phase-option.active {
     border: 1px solid rgba(232, 224, 248, 0.5);
 }
 
-body.dark-theme .custom-durations {
-    background: rgba(26, 26, 46, 0.7);
-    border-color: rgba(15, 52, 96, 0.5);
-}
-
 .custom-durations h4 {
     font-family: var(--heading-font);
     color: var(--forest-shadow);
@@ -824,10 +696,6 @@ body.dark-theme .custom-durations {
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-body.dark-theme .custom-durations h4 {
-    color: var(--sage-depth);
 }
 
 /* FIXED: Duration Controls Alignment */
@@ -871,12 +739,6 @@ body.dark-theme .custom-durations h4 {
     outline: none;
     border-color: var(--wisteria-dream);
     box-shadow: 0 0 0 3px rgba(216, 201, 235, 0.3);
-}
-
-body.dark-theme .duration-control input {
-    background: var(--dark-container);
-    border-color: var(--dark-accent);
-    color: var(--dark-text);
 }
 
 /* Apply button styling - now properly aligned */
@@ -926,10 +788,6 @@ body.dark-theme .duration-control input {
     animation: fadeIn 0.5s ease;
 }
 
-body.dark-theme .message-card {
-    background: linear-gradient(135deg, rgba(42, 58, 85, 0.7) 0%, rgba(179, 112, 141, 0.5) 100%);
-}
-
 .message-card i {
     font-size: 2.5rem;
     color: var(--sage-depth);
@@ -940,10 +798,6 @@ body.dark-theme .message-card {
     color: var(--forest-shadow);
     font-style: italic;
     line-height: 1.5;
-}
-
-body.dark-theme .message-text {
-    color: var(--dark-text);
 }
 
 /* To-Do Section */
@@ -957,11 +811,6 @@ body.dark-theme .message-text {
     padding: 30px;
     border: 1px solid rgba(232, 224, 248, 0.5);
     box-shadow: var(--soft-shadow);
-}
-
-body.dark-theme .todo-section {
-    background: rgba(26, 26, 46, 0.7);
-    border-color: rgba(15, 52, 96, 0.5);
 }
 
 .section-header {
@@ -979,10 +828,6 @@ body.dark-theme .todo-section {
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-body.dark-theme .section-header h2 {
-    color: var(--sage-depth);
 }
 
 .btn-primary {
@@ -1090,11 +935,6 @@ body.dark-theme .section-header h2 {
     animation: slideIn 0.3s ease;
 }
 
-body.dark-theme .todo-item {
-    background: rgba(15, 52, 96, 0.3);
-    border-color: rgba(42, 58, 85, 0.5);
-}
-
 .todo-item:hover {
     transform: translateY(-2px);
     box-shadow: var(--soft-shadow);
@@ -1141,10 +981,6 @@ body.dark-theme .todo-item {
 .todo-title {
     font-weight: 600;
     color: var(--forest-shadow);
-}
-
-body.dark-theme .todo-title {
-    color: var(--dark-text);
 }
 
 .todo-description {
@@ -1222,10 +1058,6 @@ body.dark-theme .todo-title {
     gap: 10px;
 }
 
-body.dark-theme .shared-workspace h3 {
-    color: var(--sage-depth);
-}
-
 .shared-tasks {
     display: flex;
     flex-direction: column;
@@ -1256,10 +1088,6 @@ body.dark-theme .shared-workspace h3 {
 .shared-task-title {
     color: var(--forest-shadow);
     font-weight: 500;
-}
-
-body.dark-theme .shared-task-title {
-    color: var(--dark-text);
 }
 
 .shared-task-status {
@@ -1306,11 +1134,6 @@ body.dark-theme .shared-task-title {
     animation: modalFadeIn 0.3s ease;
 }
 
-body.dark-theme .modal-content {
-    background: var(--dark-container);
-    border-color: var(--dark-accent);
-}
-
 .modal-large {
     max-width: 900px;
 }
@@ -1322,11 +1145,6 @@ body.dark-theme .modal-content {
     padding: 25px 30px;
     background: linear-gradient(135deg, var(--orchid-glow) 0%, var(--lilac-breeze) 100%);
     color: var(--forest-shadow);
-}
-
-body.dark-theme .modal-header {
-    background: linear-gradient(135deg, var(--dark-accent) 0%, var(--lilac-breeze) 100%);
-    color: var(--dark-text);
 }
 
 .modal-header h3 {
@@ -1352,22 +1170,12 @@ body.dark-theme .modal-header {
     justify-content: center;
 }
 
-body.dark-theme .modal-close {
-    color: var(--sage-depth);
-}
-
 /* Tasteful green hover effect inspired by nature theme */
 .modal-close:hover {
     background: linear-gradient(135deg, var(--sage-depth) 0%, var(--fern-shadow) 100%);
     color: white !important;
     transform: rotate(90deg) scale(1.1);
     box-shadow: 0 4px 12px rgba(122, 153, 120, 0.3);
-}
-
-/* Dark theme adjustment */
-body.dark-theme .modal-close:hover {
-    background: linear-gradient(135deg, var(--fern-shadow) 0%, var(--forest-shadow) 100%);
-    box-shadow: 0 4px 12px rgba(90, 122, 88, 0.4);
 }
 
 /* Ensure this doesn't affect notification close buttons if they have different class */
@@ -1386,11 +1194,6 @@ body.dark-theme .modal-close:hover {
     padding: 20px 30px;
     background: rgba(255, 255, 255, 0.5);
     border-top: 1px solid rgba(232, 224, 248, 0.5);
-}
-
-body.dark-theme .modal-footer {
-    background: rgba(26, 26, 46, 0.5);
-    border-color: var(--dark-border);
 }
 
 .btn-secondary {
@@ -1431,12 +1234,6 @@ body.dark-theme .modal-footer {
     color: var(--forest-shadow);
 }
 
-body.dark-theme #invite-modal #friend-email {
-    background-color: rgba(22, 33, 62, 0.7);
-    border-color: rgba(177, 154, 207, 0.3);
-    color: var(--dark-text);
-}
-
 #invite-modal #friend-email:focus {
     outline: none;
     border-color: var(--thistle-mist);
@@ -1459,12 +1256,6 @@ body.dark-theme #invite-modal #friend-email {
     min-height: 80px;
 }
 
-body.dark-theme #invite-modal #invite-message {
-    background-color: rgba(22, 33, 62, 0.7);
-    border-color: rgba(177, 154, 207, 0.3);
-    color: var(--dark-text);
-}
-
 #invite-modal #invite-message:focus {
     outline: none;
     border-color: var(--thistle-mist);
@@ -1479,11 +1270,6 @@ body.dark-theme #invite-modal #invite-message {
     opacity: 0.7;
 }
 
-body.dark-theme #invite-modal #friend-email::placeholder,
-body.dark-theme #invite-modal #invite-message::placeholder {
-    color: var(--eucalyptus-shade);
-}
-
 /* ============================================ */
 /* FIX 2: Cancel and Invite Button Layout - ONLY for invite modal */
 /* ============================================ */
@@ -1496,11 +1282,6 @@ body.dark-theme #invite-modal #invite-message::placeholder {
     padding: 20px 30px;
     background: rgba(255, 255, 255, 0.5);
     border-top: 1px solid rgba(232, 224, 248, 0.5);
-}
-
-body.dark-theme #invite-modal .modal-footer {
-    background: rgba(26, 26, 46, 0.5);
-    border-color: var(--dark-border);
 }
 
 /* Ensure both buttons have same size */
@@ -1583,12 +1364,6 @@ body.dark-theme #invite-modal .modal-footer {
     color: var(--mauve-whisper);
 }
 
-body.dark-theme #invite-modal .share-link input {
-    background-color: rgba(22, 33, 62, 0.7);
-    border-color: rgba(177, 154, 207, 0.3);
-    color: var(--dark-text);
-}
-
 #invite-modal .btn-copy {
     padding: 12px 20px;
     background: var(--golden-sun);
@@ -1633,12 +1408,6 @@ body.dark-theme #invite-modal .share-link input {
     overflow: hidden;
 }
 
-body.dark-theme .tab-btn {
-    background: rgba(15, 52, 96, 0.3);
-    border-color: var(--dark-accent);
-    color: rgba(255, 255, 255, 0.7);
-}
-
 .tab-btn:hover {
     background: rgba(229, 214, 244, 0.5);
     transform: translateY(-2px);
@@ -1646,22 +1415,11 @@ body.dark-theme .tab-btn {
     color: var(--thistle-mist);
 }
 
-body.dark-theme .tab-btn:hover {
-    background: rgba(42, 58, 85, 0.5);
-    color: var(--eucalyptus-shade);
-}
-
 .tab-btn.active {
     background: linear-gradient(135deg, var(--lilac-breeze) 0%, var(--wisteria-dream) 100%);
     border-color: var(--wisteria-dream);
     color: white;
     box-shadow: 0 4px 15px rgba(197, 178, 224, 0.3);
-}
-
-body.dark-theme .tab-btn.active {
-    background: linear-gradient(135deg, var(--dark-accent) 0%, var(--lilac-breeze) 100%);
-    border-color: var(--lilac-breeze);
-    box-shadow: 0 4px 15px rgba(15, 52, 96, 0.4);
 }
 
 .tab-btn.active:hover {
@@ -1718,11 +1476,6 @@ body.dark-theme .tab-btn.active {
     transition: var(--transition-medium);
 }
 
-body.dark-theme .stat-card {
-    background: rgba(26, 26, 46, 0.7);
-    border-color: var(--dark-border);
-}
-
 .stat-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--hover-shadow);
@@ -1744,10 +1497,6 @@ body.dark-theme .stat-card {
     color: var(--forest-shadow);
     line-height: 1;
     margin-bottom: 10px;
-}
-
-body.dark-theme .stat-large {
-    color: var(--sage-depth);
 }
 
 .stat-trend {
@@ -1798,11 +1547,6 @@ body.dark-theme .stat-large {
     margin-top: 20px;
 }
 
-body.dark-theme .chart-container {
-    background: rgba(26, 26, 46, 0.7);
-    border-color: var(--dark-border);
-}
-
 /* Animation for tab switching */
 @keyframes fadeIn {
     from {
@@ -1833,10 +1577,6 @@ body.dark-theme .chart-container {
     letter-spacing: 0.3px;
 }
 
-body.dark-theme #task-modal .form-group label {
-    color: var(--sage-depth);
-}
-
 /* Task Title Input */
 #task-modal #task-title {
     width: 100%;
@@ -1856,27 +1596,12 @@ body.dark-theme #task-modal .form-group label {
     opacity: 0.7;
 }
 
-body.dark-theme #task-modal #task-title {
-    background-color: rgba(22, 33, 62, 0.7);
-    border-color: rgba(177, 154, 207, 0.3);
-    color: var(--dark-text);
-}
-
-body.dark-theme #task-modal #task-title::placeholder {
-    color: var(--eucalyptus-shade);
-}
-
 #task-modal #task-title:focus {
     outline: none;
     border-color: var(--thistle-mist);
     box-shadow: 0 0 0 3px rgba(177, 154, 207, 0.2);
     background-color: rgba(255, 255, 255, 0.95);
     transform: translateY(-1px);
-}
-
-body.dark-theme #task-modal #task-title:focus {
-    background-color: rgba(26, 26, 46, 0.9);
-    box-shadow: 0 0 0 3px rgba(122, 153, 120, 0.2);
 }
 
 /* Description Textarea */
@@ -1901,27 +1626,12 @@ body.dark-theme #task-modal #task-title:focus {
     opacity: 0.7;
 }
 
-body.dark-theme #task-modal #task-description {
-    background-color: rgba(22, 33, 62, 0.7);
-    border-color: rgba(177, 154, 207, 0.3);
-    color: var(--dark-text);
-}
-
-body.dark-theme #task-modal #task-description::placeholder {
-    color: var(--eucalyptus-shade);
-}
-
 #task-modal #task-description:focus {
     outline: none;
     border-color: var(--thistle-mist);
     box-shadow: 0 0 0 3px rgba(177, 154, 207, 0.2);
     background-color: rgba(255, 255, 255, 0.95);
     transform: translateY(-1px);
-}
-
-body.dark-theme #task-modal #task-description:focus {
-    background-color: rgba(26, 26, 46, 0.9);
-    box-shadow: 0 0 0 3px rgba(122, 153, 120, 0.2);
 }
 
 /* Priority Select Dropdown */
@@ -1944,13 +1654,6 @@ body.dark-theme #task-modal #task-description:focus {
     backdrop-filter: blur(5px);
 }
 
-body.dark-theme #task-modal #task-priority {
-    background-color: rgba(22, 33, 62, 0.7);
-    border-color: rgba(177, 154, 207, 0.3);
-    color: var(--dark-text);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23A5BCA3' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-}
-
 #task-modal #task-priority:hover {
     border-color: var(--thistle-mist);
     transform: translateY(-1px);
@@ -1961,11 +1664,6 @@ body.dark-theme #task-modal #task-priority {
     border-color: var(--thistle-mist);
     box-shadow: 0 0 0 3px rgba(177, 154, 207, 0.2);
     background-color: rgba(255, 255, 255, 0.95);
-}
-
-body.dark-theme #task-modal #task-priority:focus {
-    background-color: rgba(26, 26, 46, 0.9);
-    box-shadow: 0 0 0 3px rgba(122, 153, 120, 0.2);
 }
 
 /* Priority option colors */
@@ -1984,21 +1682,6 @@ body.dark-theme #task-modal #task-priority:focus {
     color: var(--forest-shadow);
 }
 
-body.dark-theme #task-modal #task-priority option[value="low"] {
-    background-color: rgba(90, 122, 88, 0.3);
-    color: var(--eucalyptus-shade);
-}
-
-body.dark-theme #task-modal #task-priority option[value="medium"] {
-    background-color: rgba(122, 153, 120, 0.3);
-    color: var(--eucalyptus-shade);
-}
-
-body.dark-theme #task-modal #task-priority option[value="high"] {
-    background-color: rgba(179, 112, 141, 0.3);
-    color: var(--eucalyptus-shade);
-}
-
 /* Checkbox for sharing */
 #task-modal .form-group:last-of-type {
     display: flex;
@@ -2009,11 +1692,6 @@ body.dark-theme #task-modal #task-priority option[value="high"] {
     border-radius: var(--radius-md);
     border: 1px solid rgba(168, 148, 199, 0.2);
     margin-top: 10px;
-}
-
-body.dark-theme #task-modal .form-group:last-of-type {
-    background: rgba(22, 33, 62, 0.3);
-    border-color: rgba(177, 154, 207, 0.2);
 }
 
 #task-modal .form-group:last-of-type input[type="checkbox"] {
@@ -2034,11 +1712,6 @@ body.dark-theme #task-modal .form-group:last-of-type {
     box-shadow: 0 0 0 2px rgba(177, 154, 207, 0.2);
 }
 
-body.dark-theme #task-modal .form-group:last-of-type input[type="checkbox"]:checked {
-    accent-color: var(--fern-shadow);
-    box-shadow: 0 0 0 2px rgba(122, 153, 120, 0.2);
-}
-
 #task-modal .form-group:last-of-type label {
     margin-bottom: 0;
     color: var(--mauve-whisper);
@@ -2047,18 +1720,9 @@ body.dark-theme #task-modal .form-group:last-of-type input[type="checkbox"]:chec
     flex: 1;
 }
 
-body.dark-theme #task-modal .form-group:last-of-type label {
-    color: var(--eucalyptus-shade);
-}
-
 #task-modal .form-group:last-of-type:hover {
     background: rgba(229, 214, 244, 0.3);
     border-color: var(--thistle-mist);
-}
-
-body.dark-theme #task-modal .form-group:last-of-type:hover {
-    background: rgba(42, 58, 85, 0.4);
-    border-color: var(--sage-depth);
 }
 
 /* Task modal footer buttons */
@@ -2069,11 +1733,6 @@ body.dark-theme #task-modal .form-group:last-of-type:hover {
     padding: 20px 30px;
     background: rgba(255, 255, 255, 0.5);
     border-top: 1px solid rgba(232, 224, 248, 0.5);
-}
-
-body.dark-theme #task-modal .modal-footer {
-    background: rgba(26, 26, 46, 0.5);
-    border-color: var(--dark-border);
 }
 
 /* Ensure both buttons have same size */
@@ -2322,17 +1981,6 @@ body.dark-theme #task-modal .modal-footer {
         flex-direction: column;
         align-items: flex-start;
         gap: var(--spacing-sm);
-    }
-}
-
-/* Dark mode prefers-color-scheme support */
-@media (prefers-color-scheme: dark) {
-    .volume-slider::-webkit-slider-thumb {
-        background: var(--sage-depth);
-    }
-    
-    .volume-slider::-moz-range-thumb {
-        background: var(--sage-depth);
     }
 }
 
@@ -2633,30 +2281,6 @@ body.dark-theme #task-modal .modal-footer {
   }
 }
 
-/* Dark mode support for compact sidebar */
-@media (max-width: 1200px) {
-  body.dark-theme .compact-logo i,
-  body.dark-theme .compact-logo h1 {
-    color: var(--sage-depth);
-  }
-
-  body.dark-theme .compact-slogan {
-    color: var(--eucalyptus-shade);
-  }
-
-  body.dark-theme .compact-toggle {
-    background: var(--dark-accent);
-  }
-
-  body.dark-theme .compact-toggle:hover {
-    background: var(--lilac-breeze);
-  }
-
-  body.dark-theme .sidebar-content.expanded {
-    border-top-color: var(--dark-border);
-  }
-}
-
 /* ============================================ */
 /* FIX: MOBILE DROPDOWN CONTAINER FOR REAL CONTENT */
 /* ============================================ */
@@ -2692,11 +2316,6 @@ body.dark-theme #task-modal .modal-footer {
     border-bottom: 1px solid rgba(232, 224, 248, 0.3);
   }
 
-  body.dark-theme .sidebar-compact-header {
-    background: rgba(26, 26, 46, 0.85);
-    border-bottom-color: rgba(15, 52, 96, 0.3);
-  }
-
   /* Compact header content */
   .compact-header-content {
     display: flex;
@@ -2723,13 +2342,8 @@ body.dark-theme #task-modal .modal-footer {
     margin: 0;
   }
 
-  body.dark-theme .compact-logo i,
-  body.dark-theme .compact-logo h1 {
-    color: var(--sage-depth);
-  }
-
   .compact-slogan {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--mauve-whisper);
     margin: 0;
     font-style: italic;
@@ -2759,10 +2373,6 @@ body.dark-theme #task-modal .modal-footer {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
   }
-  
-  body.dark-theme .sidebar-dropdown-content {
-    background: rgba(26, 26, 46, 0.85);
-  }
 
   /* FIX: Expanded dropdown */
   .sidebar-dropdown-content.expanded {
@@ -2771,10 +2381,6 @@ body.dark-theme #task-modal .modal-footer {
     pointer-events: auto;
     padding: var(--spacing-lg) var(--spacing-lg);
     border-top: 1px solid rgba(232, 224, 248, 0.3);
-  }
-  
-  body.dark-theme .sidebar-dropdown-content.expanded {
-    border-top-color: var(--dark-border);
   }
 
   /* FIX: Ensure all content inside dropdown is visible when expanded */
@@ -3071,10 +2677,6 @@ body.dark-theme #task-modal .modal-footer {
     flex-shrink: 0;
   }
   
-  body.dark-theme .compact-toggle {
-    background: var(--dark-accent);
-  }
-  
   .compact-toggle i {
     transition: transform var(--transition-medium);
   }
@@ -3133,3 +2735,808 @@ body.dark-theme #task-modal .modal-footer {
     display: none !important;
   }
 }
+
+/* DARK THEME OVERRIDES - Only applied when body.dark-theme exists */
+body.dark-theme {
+    /* Magical Garden Overnight Color Palette */
+    --morning-dew: #1a1a2e;           /* Deep night sky */
+    --lavender-mist: #2a2344;         /* Twilight purple */
+    --petal-white: #322b4a;           /* Moonlit surface */
+    --whisper-cloud: #3a3352;         /* Soft night cloud */
+    --lilac-breeze: #6d5d95;          /* Magical lavender */
+    --wisteria-dream: #8a7bb5;        /* Blossom purple */
+    --thistle-mist: #9d8ec7;          /* Misty purple */
+    --orchid-glow: #4a3d6a;           /* Glowing orchid */
+    --mauve-whisper: #a396cc;         /* Whispering mauve */
+    
+    /* Softer, magical garden greens */
+    --forest-shadow: #3a6a4a;         /* Moonlit fern */
+    --sage-depth: #4a8a5a;            /* Enchanted sage */
+    --moss-veil: #2a5a3a;             /* Velvet moss */
+    --fern-shadow: #3a7a4a;           /* Shadow fern */
+    --eucalyptus-shade: #5aaa6a;      /* Silver eucalyptus */
+    --peach-blossom: #b3708d;         /* Night-blooming blossom */
+    
+    /* GOLD COLORS KEPT CONSISTENT WITH LIGHT THEME */
+    --golden-sun: linear-gradient(135deg, #FFD166 0%, #FFB347 50%, #FF8C42 100%);
+    --golden-light: #FFD166;
+    
+    /* Magical dark theme variables */
+    --dark-bg: #1a1a2e;
+    --dark-surface: #2a2344;
+    --dark-accent: #4a3d6a;
+    --dark-text: #e8e6f0;
+    --dark-border: rgba(106, 93, 149, 0.3);
+    --dark-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    --magical-glow: 0 0 15px rgba(157, 142, 199, 0.2);
+    
+    /* Magical garden overnight background */
+    background: linear-gradient(
+        135deg,
+        #1a1a2e 0%,           /* Deep night */
+        #2a2344 25%,          /* Twilight purple */
+        #322b4a 50%,          /* Moonlit garden */
+        #3a3352 75%,          /* Soft night mist */
+        #4a3d6a 100%          /* Orchid glow */
+    );
+    background-attachment: fixed;
+    background-size: cover;
+    color: var(--dark-text);
+}
+
+/* Magical transitions */
+body.dark-theme,
+body.dark-theme * {
+    transition: background-color var(--transition-medium),
+                color var(--transition-medium),
+                border-color var(--transition-medium),
+                box-shadow var(--transition-medium);
+}
+
+/* Container - Night garden backdrop */
+body.dark-theme .container {
+    background: transparent;
+}
+
+/* Sidebar - Moonlit garden wall */
+body.dark-theme .sidebar {
+    background: rgba(42, 35, 68, 0.92);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-right: 1px solid var(--dark-border);
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.25),
+                inset 0 0 30px rgba(157, 142, 199, 0.1);
+}
+
+/* Sidebar Header - Moonlight on leaves */
+body.dark-theme .sidebar-header {
+    border-bottom: 1px solid rgba(106, 93, 149, 0.2);
+}
+
+body.dark-theme .sidebar-header h1 {
+    color: var(--sage-depth);
+    text-shadow: 0 0 10px rgba(74, 138, 90, 0.3);
+}
+
+body.dark-theme .slogan {
+    color: var(--mauve-whisper);
+    opacity: 0.9;
+}
+
+/* User Profile - Enchanted stone */
+body.dark-theme .user-profile {
+    background: linear-gradient(135deg, 
+        rgba(74, 61, 106, 0.3) 0%,
+        rgba(58, 106, 74, 0.2) 100%);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(106, 93, 149, 0.2);
+}
+
+body.dark-theme .user-avatar {
+    color: var(--eucalyptus-shade);
+    text-shadow: 0 0 8px rgba(90, 170, 106, 0.4);
+}
+
+body.dark-theme .user-info h3 {
+    color: var(--eucalyptus-shade);
+}
+
+body.dark-theme .user-info p {
+    color: var(--mauve-whisper);
+    opacity: 0.8;
+}
+
+body.dark-theme .theme-toggle {
+    background: var(--dark-accent);
+    color: var(--golden-light);
+    box-shadow: 0 0 10px rgba(255, 209, 102, 0.2);
+}
+
+body.dark-theme .theme-toggle:hover {
+    background: var(--lilac-breeze);
+    color: white;
+    transform: rotate(15deg);
+    box-shadow: 0 0 15px rgba(109, 93, 149, 0.3);
+}
+
+/* Sidebar Sections - Separated by moonbeams */
+body.dark-theme .sidebar-section {
+    border-bottom: 1px solid rgba(106, 93, 149, 0.15);
+}
+
+body.dark-theme .sidebar-section h3 {
+    color: var(--sage-depth);
+}
+
+body.dark-theme .sidebar-section h3 i {
+    color: var(--thistle-mist);
+}
+
+/* Sound Options - Whispering night sounds */
+body.dark-theme .sound-option {
+    background: rgba(74, 61, 106, 0.2);
+    border: 1px solid rgba(106, 93, 149, 0.1);
+}
+
+body.dark-theme .sound-option:hover {
+    background: rgba(109, 93, 149, 0.25);
+    border-color: rgba(157, 142, 199, 0.3);
+    transform: translateY(-1px);
+}
+
+body.dark-theme .sound-option.active {
+    background: linear-gradient(135deg, 
+        rgba(109, 93, 149, 0.4) 0%,
+        rgba(74, 138, 90, 0.3) 100%);
+    border-left: 3px solid var(--thistle-mist);
+    box-shadow: var(--magical-glow);
+}
+
+body.dark-theme .sound-option i {
+    color: var(--eucalyptus-shade);
+}
+
+body.dark-theme .sound-option span {
+    color: var(--mauve-whisper);
+}
+
+/* Volume Slider - Moonlight slider */
+body.dark-theme .volume-slider {
+    background: var(--lilac-breeze);
+}
+
+body.dark-theme .volume-slider::-webkit-slider-thumb {
+    background: var(--sage-depth);
+    box-shadow: 0 0 5px rgba(74, 138, 90, 0.5);
+}
+
+body.dark-theme .volume-slider::-moz-range-thumb {
+    background: var(--sage-depth);
+    box-shadow: 0 0 5px rgba(74, 138, 90, 0.5);
+}
+
+/* Stats - Glowing garden stones */
+body.dark-theme .stat-item {
+    background: rgba(74, 61, 106, 0.25);
+    border: 1px solid rgba(106, 93, 149, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-theme .stat-value {
+    color: var(--sage-depth);
+    text-shadow: 0 0 8px rgba(74, 138, 90, 0.3);
+}
+
+body.dark-theme .stat-label {
+    color: var(--mauve-whisper);
+    opacity: 0.9;
+}
+
+/* Quotes - Moonlit wisdom */
+body.dark-theme .quote-container {
+    background: linear-gradient(135deg, 
+        rgba(74, 61, 106, 0.3) 0%,
+        rgba(58, 106, 74, 0.2) 100%);
+    border-left: 3px solid var(--orchid-glow);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-theme .quote-text {
+    color: var(--mauve-whisper);
+    font-style: italic;
+}
+
+body.dark-theme .quote-author {
+    color: var(--eucalyptus-shade);
+}
+
+/* Buttons with magical gold */
+body.dark-theme .btn-invite {
+    background: linear-gradient(135deg, 
+        var(--sage-depth) 0%, 
+        var(--fern-shadow) 100%);
+    border: 1px solid rgba(90, 170, 106, 0.3);
+    box-shadow: 0 0 15px rgba(74, 138, 90, 0.3);
+}
+
+body.dark-theme .btn-invite:hover {
+    background: linear-gradient(135deg, 
+        var(--fern-shadow) 0%, 
+        var(--forest-shadow) 100%);
+    box-shadow: 0 0 20px rgba(90, 170, 106, 0.4);
+}
+
+body.dark-theme .btn-copy {
+    background: var(--golden-sun);
+    border: 1px solid rgba(255, 209, 102, 0.3);
+    box-shadow: 0 0 10px rgba(255, 209, 102, 0.2);
+}
+
+body.dark-theme .btn-copy:hover {
+    background: var(--wisteria-dream);
+    box-shadow: 0 0 15px rgba(157, 142, 199, 0.3);
+}
+
+/* Main Workspace - Moonlit garden floor */
+body.dark-theme .main-workspace {
+    background: transparent;
+}
+
+/* Workspace Header - Night sky header */
+body.dark-theme .workspace-header {
+    border-bottom: 1px solid rgba(106, 93, 149, 0.2);
+}
+
+body.dark-theme #session-number {
+    color: var(--sage-depth);
+    text-shadow: 0 0 8px rgba(74, 138, 90, 0.3);
+}
+
+body.dark-theme .date-display {
+    color: var(--mauve-whisper);
+}
+
+body.dark-theme .date-display i {
+    color: var(--eucalyptus-shade);
+}
+
+body.dark-theme .btn-icon {
+    background: var(--dark-accent);
+    color: var(--dark-text);
+    border: 1px solid rgba(106, 93, 149, 0.3);
+}
+
+body.dark-theme .btn-icon:hover {
+    background: var(--lilac-breeze);
+    border-color: var(--thistle-mist);
+}
+
+/* Progress Ring - Moon phase ring */
+body.dark-theme .progress-ring-circle {
+    stroke: var(--lilac-breeze);
+    filter: drop-shadow(0 0 5px rgba(109, 93, 149, 0.4));
+}
+
+body.dark-theme .time-left {
+    color: var(--mauve-whisper);
+    text-shadow: 0 0 10px rgba(163, 150, 204, 0.3);
+}
+
+body.dark-theme .timer-label {
+    color: var(--mauve-whisper);
+    letter-spacing: 3px;
+}
+
+/* Timer Controls - Magical golden buttons */
+body.dark-theme .btn-timer {
+    background: linear-gradient(135deg, 
+        var(--lilac-breeze) 0%, 
+        var(--wisteria-dream) 100%);
+    border: 1px solid rgba(138, 123, 181, 0.3);
+    box-shadow: 0 4px 15px rgba(109, 93, 149, 0.3);
+}
+
+body.dark-theme .btn-timer:hover {
+    background: linear-gradient(135deg, 
+        var(--wisteria-dream) 0%, 
+        var(--thistle-mist) 100%);
+    box-shadow: 0 6px 20px rgba(157, 142, 199, 0.4);
+}
+
+/* Phase Toggle - Moon phases */
+body.dark-theme .phase-toggle {
+    background: rgba(74, 61, 106, 0.25);
+    border: 1px solid rgba(106, 93, 149, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-theme .phase-option {
+    color: var(--mauve-whisper);
+}
+
+body.dark-theme .phase-option:hover {
+    background: rgba(109, 93, 149, 0.3);
+}
+
+body.dark-theme .phase-option.active {
+    background: linear-gradient(135deg, 
+        var(--dark-accent) 0%,
+        rgba(74, 138, 90, 0.3) 100%);
+    color: var(--dark-text);
+    box-shadow: var(--magical-glow);
+}
+
+/* Custom Durations - Moonlit garden bed */
+body.dark-theme .custom-durations {
+    background: rgba(42, 35, 68, 0.8);
+    border: 1px solid rgba(106, 93, 149, 0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--dark-shadow),
+                inset 0 0 20px rgba(157, 142, 199, 0.1);
+}
+
+body.dark-theme .custom-durations h4 {
+    color: var(--sage-depth);
+}
+
+body.dark-theme .duration-control label {
+    color: var(--mauve-whisper);
+}
+
+body.dark-theme .duration-control input {
+    background: rgba(50, 43, 74, 0.8);
+    border: 1px solid rgba(106, 93, 149, 0.4);
+    color: var(--dark-text);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-theme .duration-control input:focus {
+    border-color: var(--wisteria-dream);
+    box-shadow: 0 0 0 3px rgba(138, 123, 181, 0.2),
+                inset 0 0 10px rgba(157, 142, 199, 0.1);
+}
+
+/* Apply button - Golden apply */
+body.dark-theme #apply-durations {
+    background: linear-gradient(135deg, 
+        var(--sage-depth) 0%, 
+        var(--fern-shadow) 100%);
+    border: 1px solid rgba(90, 170, 106, 0.3);
+    box-shadow: 0 0 10px rgba(74, 138, 90, 0.3);
+}
+
+body.dark-theme #apply-durations:hover {
+    background: linear-gradient(135deg, 
+        var(--fern-shadow) 0%, 
+        var(--forest-shadow) 100%);
+    box-shadow: 0 0 15px rgba(90, 170, 106, 0.4);
+}
+
+/* Messages - Whispering night winds */
+body.dark-theme .message-card {
+    background: linear-gradient(135deg, 
+        rgba(109, 93, 149, 0.4) 0%, 
+        rgba(179, 112, 141, 0.3) 100%);
+    border: 1px solid rgba(157, 142, 199, 0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--magical-glow);
+}
+
+body.dark-theme .message-card i {
+    color: var(--eucalyptus-shade);
+    text-shadow: 0 0 10px rgba(90, 170, 106, 0.4);
+}
+
+body.dark-theme .message-text {
+    color: var(--dark-text);
+}
+
+/* To-Do Section - Enchanted garden journal */
+body.dark-theme .todo-section {
+    background: rgba(42, 35, 68, 0.85);
+    border: 1px solid rgba(106, 93, 149, 0.3);
+    backdrop-filter: blur(15px);
+    box-shadow: var(--dark-shadow),
+                inset 0 0 25px rgba(157, 142, 199, 0.1);
+}
+
+body.dark-theme .section-header h2 {
+    color: var(--sage-depth);
+    text-shadow: 0 0 10px rgba(74, 138, 90, 0.3);
+}
+
+/* Primary Button - Golden primary */
+body.dark-theme .btn-primary {
+    background: linear-gradient(135deg, 
+        var(--lilac-breeze) 0%, 
+        var(--wisteria-dream) 100%);
+    border: 1px solid rgba(138, 123, 181, 0.3);
+    box-shadow: 0 4px 15px rgba(109, 93, 149, 0.3);
+}
+
+body.dark-theme .btn-primary:hover {
+    background: linear-gradient(135deg, 
+        var(--wisteria-dream) 0%, 
+        var(--thistle-mist) 100%);
+    box-shadow: 0 6px 20px rgba(157, 142, 199, 0.4);
+}
+
+/* To-Do Filters - Moonbeam filters */
+body.dark-theme .todo-filters {
+    border-bottom: 1px solid rgba(106, 93, 149, 0.2);
+}
+
+body.dark-theme .filter-btn {
+    border: 1px solid rgba(109, 93, 149, 0.4);
+    color: var(--mauve-whisper);
+    background: rgba(74, 61, 106, 0.2);
+}
+
+body.dark-theme .filter-btn:hover {
+    background: rgba(109, 93, 149, 0.3);
+    border-color: var(--thistle-mist);
+}
+
+body.dark-theme .filter-btn.active {
+    background: linear-gradient(135deg, 
+        var(--lilac-breeze) 0%,
+        rgba(74, 138, 90, 0.3) 100%);
+    color: white;
+    border-color: var(--thistle-mist);
+    box-shadow: var(--magical-glow);
+}
+
+/* To-Do List Scrollbar - Moonlight scroll */
+body.dark-theme .todo-list::-webkit-scrollbar-track {
+    background: rgba(74, 61, 106, 0.2);
+}
+
+body.dark-theme .todo-list::-webkit-scrollbar-thumb {
+    background: var(--lilac-breeze);
+    border-radius: 4px;
+}
+
+/* To-Do Items - Glowing garden stones */
+body.dark-theme .todo-item {
+    background: rgba(74, 61, 106, 0.3);
+    border: 1px solid rgba(106, 93, 149, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-theme .todo-item:hover {
+    background: rgba(109, 93, 149, 0.35);
+    border-color: var(--thistle-mist);
+    box-shadow: var(--dark-shadow),
+                0 0 15px rgba(157, 142, 199, 0.2);
+    transform: translateY(-2px);
+}
+
+body.dark-theme .todo-item.completed {
+    background: rgba(74, 61, 106, 0.2);
+    opacity: 0.8;
+}
+
+body.dark-theme .todo-checkbox {
+    border: 2px solid var(--lilac-breeze);
+}
+
+body.dark-theme .todo-checkbox.checked {
+    background: var(--sage-depth);
+    border-color: var(--sage-depth);
+    box-shadow: 0 0 8px rgba(74, 138, 90, 0.5);
+}
+
+body.dark-theme .todo-title {
+    color: var(--dark-text);
+}
+
+body.dark-theme .todo-description {
+    color: var(--mauve-whisper);
+    opacity: 0.9;
+}
+
+/* Priority colors - Magical garden elements */
+body.dark-theme .todo-priority.low {
+    background: rgba(90, 170, 106, 0.25);
+    color: var(--eucalyptus-shade);
+    border: 1px solid rgba(90, 170, 106, 0.3);
+}
+
+body.dark-theme .todo-priority.medium {
+    background: rgba(157, 142, 199, 0.25);
+    color: var(--thistle-mist);
+    border: 1px solid rgba(157, 142, 199, 0.3);
+}
+
+body.dark-theme .todo-priority.high {
+    background: rgba(179, 112, 141, 0.25);
+    color: var(--peach-blossom);
+    border: 1px solid rgba(179, 112, 141, 0.3);
+}
+
+body.dark-theme .todo-action-btn {
+    border: 1px solid rgba(109, 93, 149, 0.4);
+    color: var(--mauve-whisper);
+    background: rgba(74, 61, 106, 0.2);
+}
+
+body.dark-theme .todo-action-btn:hover {
+    background: var(--dark-accent);
+    color: var(--dark-text);
+    border-color: var(--thistle-mist);
+}
+
+body.dark-theme .todo-item.completed .todo-title {
+    color: var(--mauve-whisper);
+    opacity: 0.7;
+}
+
+/* Shared Workspace - Moonlit garden path */
+body.dark-theme .shared-workspace {
+    border-top: 1px solid rgba(106, 93, 149, 0.2);
+}
+
+body.dark-theme .shared-workspace h3 {
+    color: var(--sage-depth);
+}
+
+body.dark-theme .shared-task {
+    background: rgba(74, 61, 106, 0.3);
+    border-left: 3px solid var(--sage-depth);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-theme .shared-task-user {
+    color: var(--eucalyptus-shade);
+}
+
+body.dark-theme .shared-task-title {
+    color: var(--dark-text);
+}
+
+body.dark-theme .shared-task-status {
+    background: rgba(90, 170, 106, 0.25);
+    color: var(--eucalyptus-shade);
+    border: 1px solid rgba(90, 170, 106, 0.3);
+}
+
+body.dark-theme .shared-task-status.completed {
+    background: rgba(122, 202, 122, 0.25);
+    color: var(--sage-depth);
+    border: 1px solid rgba(122, 202, 122, 0.3);
+}
+
+/* Modal Styles - Magical garden portal */
+body.dark-theme .modal-content {
+    background: rgba(42, 35, 68, 0.95);
+    border: 1px solid rgba(106, 93, 149, 0.4);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(157, 142, 199, 0.2);
+}
+
+body.dark-theme .modal-header {
+    background: linear-gradient(135deg, 
+        var(--dark-accent) 0%, 
+        var(--lilac-breeze) 100%);
+    color: var(--dark-text);
+    border-bottom: 1px solid rgba(106, 93, 149, 0.3);
+}
+
+body.dark-theme .modal-close {
+    color: var(--sage-depth);
+}
+
+body.dark-theme .modal-close:hover {
+    background: linear-gradient(135deg, 
+        var(--fern-shadow) 0%, 
+        var(--forest-shadow) 100%);
+    box-shadow: 0 0 15px rgba(90, 170, 106, 0.4);
+}
+
+body.dark-theme .modal-body {
+    background: transparent;
+}
+
+body.dark-theme .modal-footer {
+    background: rgba(42, 35, 68, 0.7);
+    border-top: 1px solid rgba(106, 93, 149, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+/* Form Inputs in Modals - Magical ink */
+body.dark-theme #invite-modal #friend-email,
+body.dark-theme #invite-modal #invite-message,
+body.dark-theme #task-modal #task-title,
+body.dark-theme #task-modal #task-description,
+body.dark-theme #task-modal #task-priority {
+    background-color: rgba(50, 43, 74, 0.8);
+    border: 1px solid rgba(106, 93, 149, 0.4);
+    color: var(--dark-text);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-theme #invite-modal #friend-email:focus,
+body.dark-theme #invite-modal #invite-message:focus,
+body.dark-theme #task-modal #task-title:focus,
+body.dark-theme #task-modal #task-description:focus,
+body.dark-theme #task-modal #task-priority:focus {
+    background-color: rgba(50, 43, 74, 0.95);
+    border-color: var(--thistle-mist);
+    box-shadow: 0 0 0 3px rgba(157, 142, 199, 0.2),
+                inset 0 0 10px rgba(157, 142, 199, 0.1);
+}
+
+body.dark-theme #invite-modal #friend-email::placeholder,
+body.dark-theme #invite-modal #invite-message::placeholder,
+body.dark-theme #task-modal #task-title::placeholder,
+body.dark-theme #task-modal #task-description::placeholder {
+    color: var(--mauve-whisper);
+    opacity: 0.6;
+}
+
+/* Task Modal Checkbox - Enchanted checkbox */
+body.dark-theme #task-modal .form-group:last-of-type {
+    background: rgba(74, 61, 106, 0.3);
+    border: 1px solid rgba(106, 93, 149, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-theme #task-modal .form-group:last-of-type label {
+    color: var(--eucalyptus-shade);
+}
+
+body.dark-theme #task-modal .form-group:last-of-type:hover {
+    background: rgba(109, 93, 149, 0.4);
+    border-color: var(--sage-depth);
+}
+
+/* Dashboard Tabs - Moon phases */
+body.dark-theme .dashboard-tabs {
+    border-bottom: 1px solid rgba(106, 93, 149, 0.2);
+}
+
+body.dark-theme .tab-btn {
+    background: rgba(74, 61, 106, 0.3);
+    border: 1px solid rgba(106, 93, 149, 0.3);
+    color: var(--mauve-whisper);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-theme .tab-btn:hover {
+    background: rgba(109, 93, 149, 0.4);
+    color: var(--eucalyptus-shade);
+    border-color: var(--thistle-mist);
+}
+
+body.dark-theme .tab-btn.active {
+    background: linear-gradient(135deg, 
+        var(--dark-accent) 0%, 
+        var(--lilac-breeze) 100%);
+    border-color: var(--lilac-breeze);
+    color: white;
+    box-shadow: var(--magical-glow);
+}
+
+body.dark-theme .tab-btn.active::after {
+    background: var(--sage-depth);
+}
+
+/* Stats Cards - Glowing garden crystals */
+body.dark-theme .stat-card {
+    background: rgba(42, 35, 68, 0.85);
+    border: 1px solid rgba(106, 93, 149, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+body.dark-theme .stat-card:hover {
+    background: rgba(74, 61, 106, 0.9);
+    border-color: var(--lilac-breeze);
+    box-shadow: var(--dark-shadow),
+                0 0 20px rgba(157, 142, 199, 0.2);
+    transform: translateY(-3px);
+}
+
+body.dark-theme .stat-card h4 {
+    color: var(--mauve-whisper);
+}
+
+body.dark-theme .stat-large {
+    color: var(--sage-depth);
+    text-shadow: 0 0 10px rgba(74, 138, 90, 0.3);
+}
+
+body.dark-theme .stat-trend {
+    color: var(--eucalyptus-shade);
+}
+
+/* Chart Container - Moonlit chart */
+body.dark-theme .chart-container {
+    background: rgba(42, 35, 68, 0.85);
+    border: 1px solid rgba(106, 93, 149, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+/* Compact Sidebar (Mobile) - Miniature garden */
+@media (max-width: 1200px) {
+    body.dark-theme .sidebar-compact-header {
+        background: rgba(42, 35, 68, 0.95);
+        border-bottom: 1px solid rgba(106, 93, 149, 0.3);
+        backdrop-filter: blur(20px);
+    }
+    
+    body.dark-theme .compact-logo i,
+    body.dark-theme .compact-logo h1 {
+        color: var(--sage-depth);
+        text-shadow: 0 0 10px rgba(74, 138, 90, 0.3);
+    }
+    
+    body.dark-theme .compact-slogan {
+        color: var(--mauve-whisper);
+    }
+    
+    body.dark-theme .compact-toggle {
+        background: var(--dark-accent);
+        box-shadow: 0 0 10px rgba(74, 61, 106, 0.3);
+    }
+    
+    body.dark-theme .compact-toggle:hover {
+        background: var(--lilac-breeze);
+        box-shadow: 0 0 15px rgba(109, 93, 149, 0.4);
+    }
+    
+    body.dark-theme .sidebar-dropdown-content {
+        background: rgba(42, 35, 68, 0.95);
+        backdrop-filter: blur(20px);
+    }
+    
+    body.dark-theme .sidebar-dropdown-content.expanded {
+        border-top-color: rgba(106, 93, 149, 0.3);
+    }
+}
+
+/* Secondary Button - Golden secondary */
+body.dark-theme .btn-secondary {
+    background: linear-gradient(135deg, 
+        var(--sage-depth) 0%, 
+        var(--fern-shadow) 100%);
+    border: 1px solid rgba(90, 170, 106, 0.3);
+    box-shadow: 0 4px 10px rgba(74, 138, 90, 0.3);
+}
+
+body.dark-theme .btn-secondary:hover {
+    background: linear-gradient(135deg, 
+        var(--fern-shadow) 0%, 
+        var(--forest-shadow) 100%);
+    box-shadow: 0 6px 15px rgba(90, 170, 106, 0.4);
+}
+
+/* Phase Badge - Golden moon badge */
+body.dark-theme .phase-badge {
+    background: var(--golden-sun);
+    border: 1px solid rgba(255, 209, 102, 0.3);
+    box-shadow: 0 0 15px rgba(255, 209, 102, 0.2);
+}
+
+/* Small Button - Magical small */
+body.dark-theme .btn-small {
+    background: var(--lilac-breeze);
+    border: 1px solid rgba(109, 93, 149, 0.3);
+}
+
+body.dark-theme .btn-small:hover {
+    background: var(--wisteria-dream);
+    border-color: var(--thistle-mist);
+}
+
+/* Sidebar Toggle - Moon phase toggle */
+body.dark-theme .sidebar-toggle {
+    background: var(--lilac-breeze);
+    box-shadow: 0 0 10px rgba(109, 93, 149, 0.3);
+}
+
+body.dark-theme .sidebar-toggle:hover {
+    background: var(--wisteria-dream);
+    box-shadow: 0 0 15px rgba(157, 142, 199, 0.4);
+}
+
+
