@@ -43,8 +43,8 @@ const filterBtns = document.querySelectorAll('.filter-btn');
 // Timer Variables
 let timer;
 let isRunning = false;
-let timeRemaining = 25 * 60; // 25 minutes in seconds
-let currentTimerType = 'focus'; // 'focus', 'shortBreak', 'longBreak'
+let timeRemaining = 25 * 60;
+let currentTimerType = 'focus';
 let sessionsCompleted = 0;
 let totalFocusTime = 0;
 let tasksCompleted = 0;
@@ -55,8 +55,8 @@ let settings = {
     shortBreakDuration: 5,
     longBreakDuration: 15,
     longBreakInterval: 4,
-    autoStartBreaks: false,
-    autoStartFocus: false,
+    autoStartBreaks: true,
+    autoStartFocus: true,
     soundEnabled: true
 };
 
@@ -115,44 +115,23 @@ let dailyChart, weeklyChart, monthlyChart;
 
 // Initialize the application
 function init() {
-    // Load user data
     loadUserData();
-    
-    // Load saved settings
     loadSettings();
-    
-    // Load saved tasks
     loadTasks();
-    
-    // Initialize date display
     updateDateDisplay();
-    
-    // Initialize timer display
     updateTimerDisplay();
-    
-    // Initialize progress circle
     updateProgressCircle();
-    
-    // Initialize stats
     updateStats();
-    
-    // Load a random quote
     loadRandomQuote();
-    
-    // Load a random supportive message
     loadRandomMessage();
-    
-    // Set up event listeners
     setupEventListeners();
-    
-    // Initialize charts
     initCharts();
-    
-    // Check for notifications
-    checkForNotifications();
 }
 
-// Load user data from localStorage
+// ================================
+// DATA MANAGEMENT FUNCTIONS
+// ================================
+
 function loadUserData() {
     const savedName = localStorage.getItem('lentora_user_name');
     const savedEmail = localStorage.getItem('lentora_user_email');
@@ -166,32 +145,36 @@ function loadUserData() {
     userEmail.textContent = user.email;
 }
 
-// Load settings from localStorage
 function loadSettings() {
     const savedSettings = localStorage.getItem('lentora_settings');
     if (savedSettings) {
-        settings = JSON.parse(savedSettings);
+        const parsedSettings = JSON.parse(savedSettings);
         
-        // Update UI with saved settings
-        focusDurationInput.value = settings.focusDuration;
-        shortBreakDurationInput.value = settings.shortBreakDuration;
-        longBreakDurationInput.value = settings.longBreakDuration;
+        Object.keys(settings).forEach(key => {
+            if (parsedSettings[key] !== undefined) {
+                settings[key] = parsedSettings[key];
+            }
+        });
         
-        // Set initial timer based on settings
-        if (currentTimerType === 'focus') {
-            timeRemaining = settings.focusDuration * 60;
-        }
+        // Populate inputs
+        if (focusDurationInput) focusDurationInput.value = settings.focusDuration;
+        if (shortBreakDurationInput) shortBreakDurationInput.value = settings.shortBreakDuration;
+        if (longBreakDurationInput) longBreakDurationInput.value = settings.longBreakDuration;
     }
     
-    updateTimerDisplay();
+    // FORCE DEFAULT: If autoStart settings are somehow false/undefined because of old data, force them true for now
+    // (Remove these two lines later if you add UI toggles for these settings)
+    if (settings.autoStartBreaks === undefined) settings.autoStartBreaks = true;
+    if (settings.autoStartFocus === undefined) settings.autoStartFocus = true;
+
+    resetToCurrentPhaseDuration();
+    updateTimerLabel();
 }
 
-// Save settings to localStorage
 function saveSettings() {
     localStorage.setItem('lentora_settings', JSON.stringify(settings));
 }
 
-// Load tasks from localStorage
 function loadTasks() {
     const savedTasks = localStorage.getItem('lentora_tasks');
     if (savedTasks) {
@@ -200,73 +183,85 @@ function loadTasks() {
     }
 }
 
-// Save tasks to localStorage
 function saveTasks() {
     localStorage.setItem('lentora_tasks', JSON.stringify(tasks));
 }
 
-// Update date display
-function updateDateDisplay() {
-    const now = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    currentDate.textContent = now.toLocaleDateString('en-US', options);
+function saveStats() {
+    const stats = {
+        sessionsCompleted,
+        totalFocusTime,
+        tasksCompleted,
+        lastUpdated: new Date().toISOString()
+    };
+    localStorage.setItem('lentora_stats', JSON.stringify(stats));
 }
 
-// Update timer display
-function updateTimerDisplay() {
-    const minutes = Math.floor(timeRemaining / 60);
-    const seconds = timeRemaining % 60;
-    
-    timeLeft.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    
-    // Update timer label based on current phase
-    if (currentTimerType === 'focus') {
-        timerLabel.textContent = 'Focus Time';
-        currentPhase.textContent = 'Focus';
-        document.querySelector('.phase-option[data-phase="focus"]').classList.add('active');
-    } else if (currentTimerType === 'shortBreak') {
-        timerLabel.textContent = 'Short Break';
-        currentPhase.textContent = 'Short Break';
-        document.querySelector('.phase-option[data-phase="short-break"]').classList.add('active');
-    } else {
-        timerLabel.textContent = 'Long Break';
-        currentPhase.textContent = 'Long Break';
-        document.querySelector('.phase-option[data-phase="long-break"]').classList.add('active');
-    }
-    
-    updateProgressCircle();
-}
+// ================================
+// TIMER FUNCTIONS (FIXED)
+// ================================
 
-// Update progress circle
-function updateProgressCircle() {
-    let totalTime;
-    
-    if (currentTimerType === 'focus') {
-        totalTime = settings.focusDuration * 60;
-    } else if (currentTimerType === 'shortBreak') {
-        totalTime = settings.shortBreakDuration * 60;
-    } else {
-        totalTime = settings.longBreakDuration * 60;
+// Centralized function to stop the interval
+function stopTimer() {
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
     }
+    isRunning = false;
     
-    const progress = ((totalTime - timeRemaining) / totalTime) * 100;
-    const circumference = 2 * Math.PI * 200;
-    const offset = circumference - (progress / 100) * circumference;
-    
-    progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-    progressCircle.style.strokeDashoffset = offset;
-    
-    // Update circle color based on phase
-    if (currentTimerType === 'focus') {
-        progressCircle.style.stroke = 'var(--golden-light)';
-    } else if (currentTimerType === 'shortBreak') {
-        progressCircle.style.stroke = 'var(--sage-depth)';
-    } else {
-        progressCircle.style.stroke = 'var(--forest-shadow)';
+    // Update UI Button to "Start" state
+    if (startPauseBtn) {
+        startPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Start</span>';
+        startPauseBtn.classList.remove('active');
     }
 }
 
-// Start or pause the timer
+// Get duration in seconds based on phase
+function getPhaseDuration(phase) {
+    const activePhase = phase || currentTimerType;
+    switch (activePhase) {
+        case 'focus': return (settings.focusDuration || 25) * 60;
+        case 'shortBreak': return (settings.shortBreakDuration || 5) * 60;
+        case 'longBreak': return (settings.longBreakDuration || 15) * 60;
+        default: return 25 * 60;
+    }
+}
+
+// Core function to start the timer
+function startTimer() {
+    // Prevent multiple intervals
+    if (isRunning && timer) return;
+
+    // Safety: If time is zero (or negative), reset it before starting
+    if (timeRemaining <= 0) {
+        timeRemaining = getPhaseDuration(currentTimerType);
+    }
+
+    isRunning = true;
+    
+    if (startPauseBtn) {
+        startPauseBtn.innerHTML = '<i class="fas fa-pause"></i><span>Pause</span>';
+        startPauseBtn.classList.add('active');
+    }
+
+    // Update display immediately so there is no 1-second delay
+    updateTimerDisplay();
+
+    timer = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+
+        if (timeRemaining <= 0) {
+            stopTimer(); 
+            processTimerCompletion();
+        }
+    }, 1000);
+}
+
+function pauseTimer() {
+    stopTimer();
+}
+
 function toggleTimer() {
     if (isRunning) {
         pauseTimer();
@@ -275,171 +270,236 @@ function toggleTimer() {
     }
 }
 
-// Start the timer
-function startTimer() {
-    isRunning = true;
-    startPauseBtn.innerHTML = '<i class="fas fa-pause"></i><span>Pause</span>';
-    startPauseBtn.classList.add('active');
-    
-    timer = setInterval(() => {
-        timeRemaining--;
-        updateTimerDisplay();
-        
-        if (timeRemaining <= 0) {
-            completeTimer();
-        }
-    }, 1000);
-}
-
-// Pause the timer
-function pauseTimer() {
-    isRunning = false;
-    startPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Start</span>';
-    startPauseBtn.classList.remove('active');
-    
-    clearInterval(timer);
-}
-
-// Reset the timer
 function resetTimer() {
-    clearInterval(timer);
-    isRunning = false;
-    startPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Start</span>';
-    startPauseBtn.classList.remove('active');
-    
-    // Reset to current phase duration
-    if (currentTimerType === 'focus') {
-        timeRemaining = settings.focusDuration * 60;
-    } else if (currentTimerType === 'shortBreak') {
-        timeRemaining = settings.shortBreakDuration * 60;
-    } else {
-        timeRemaining = settings.longBreakDuration * 60;
-    }
-    
+    stopTimer();
+    timeRemaining = getPhaseDuration(currentTimerType);
     updateTimerDisplay();
 }
 
-// Skip current timer phase
 function skipTimer() {
-    clearInterval(timer);
-    isRunning = false;
-    startPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Start</span>';
-    
-    // If we're skipping a focus session, we should NOT count it as completed
-    // Only count completed sessions when they actually finish
-    completeTimer(true);
+    stopTimer();
+    const nextPhase = determineNextPhase(false);
+    switchPhase(nextPhase);
 }
 
-// Complete the current timer phase
-// Complete the current timer phase
-function completeTimer(skipped = false) {
-    clearInterval(timer);
-    isRunning = false;
+// Logic that runs when timer reaches 0
+function processTimerCompletion() {
+    const wasFocus = currentTimerType === 'focus';
     
-    // Play appropriate sound
-    if (settings.soundEnabled) {
-        if (currentTimerType === 'focus') {
-            sessionEndSound.play();
-            
-            // Only increment session count when a focus session actually completes
+    // 1. CRITICAL: Determine next phase immediately (Logic First)
+    const nextPhase = determineNextPhase(wasFocus);
+
+    // 2. CRITICAL: Switch the state immediately so the timer is ready
+    switchPhase(nextPhase);
+
+    // 3. Handle Stats, Sounds, and UI (Wrapped in try-catch so errors don't stop auto-start)
+    try {
+        if (wasFocus) {
             sessionsCompleted++;
             totalFocusTime += settings.focusDuration;
             updateStats();
             
-            // Show supportive message
-            loadRandomMessage();
-            
-            // Show notification
+            if (settings.soundEnabled) {
+                sessionEndSound.play().catch(e => console.warn("Audio play blocked", e));
+            }
             showNotification('Focus Session Complete!', 'Time for a break.', 'success');
+            loadRandomMessage();
         } else {
-            breakEndSound.play();
+            if (settings.soundEnabled) {
+                breakEndSound.play().catch(e => console.warn("Audio play blocked", e));
+            }
             showNotification('Break Time Over!', 'Ready to focus again?', 'info');
         }
+    } catch (error) {
+        console.error("UI/Audio update failed, but continuing timer logic:", error);
     }
+
+    // 4. Handle Auto-Start
+    // We check settings explicitly. 
+    let shouldAutoStart = false;
     
-    // Determine next phase
-    if (currentTimerType === 'focus') {
-        // Check if it's time for a long break
-        if (sessionsCompleted % settings.longBreakInterval === 0) {
-            currentTimerType = 'longBreak';
-            timeRemaining = settings.longBreakDuration * 60;
-        } else {
-            currentTimerType = 'shortBreak';
-            timeRemaining = settings.shortBreakDuration * 60;
-        }
-        
-        // Update session counter - shows current session in cycle (1-4)
-        // This should be based on sessionsCompleted, but mod 4 to show 1-4
-        sessionNumber.textContent = (sessionsCompleted % settings.longBreakInterval) + 1;
+    if (nextPhase === 'focus') {
+        shouldAutoStart = settings.autoStartFocus;
     } else {
-        currentTimerType = 'focus';
-        timeRemaining = settings.focusDuration * 60;
-        
-        // When moving from break to focus, don't increment session count
-        // Session number should stay the same until focus session completes
-        // Actually, we need to think about this - if we just finished break 1,
-        // we're about to start focus session 2, so sessionNumber should be 2
-        // But sessionsCompleted is 1 (completed session 1)
-        // So sessionNumber should be sessionsCompleted + 1
-        sessionNumber.textContent = sessionsCompleted + 1;
+        shouldAutoStart = settings.autoStartBreaks;
     }
-    
-    updateTimerDisplay();
-    
-    // Auto-start next timer if enabled
-    if ((currentTimerType === 'shortBreak' || currentTimerType === 'longBreak') && settings.autoStartBreaks) {
-        setTimeout(startTimer, 1000);
-    } else if (currentTimerType === 'focus' && settings.autoStartFocus) {
-        setTimeout(startTimer, 1000);
+
+    if (shouldAutoStart) {
+        // Use a 500ms delay to ensure the DOM has settled and sounds have initiated
+        setTimeout(() => {
+            console.log(`Auto-starting ${nextPhase}...`);
+            startTimer();
+        }, 500); 
     }
 }
 
-// Update stats display
+function determineNextPhase(wasNaturalCompletion) {
+    if (currentTimerType === 'focus') {
+        // If natural completion, check for long break
+        if (wasNaturalCompletion && sessionsCompleted > 0 && sessionsCompleted % settings.longBreakInterval === 0) {
+            return 'longBreak';
+        }
+        return 'shortBreak';
+    } else {
+        return 'focus';
+    }
+}
+
+function switchPhase(newPhase) {
+    currentTimerType = newPhase;
+    timeRemaining = getPhaseDuration(newPhase);
+
+    // Update UI elements safely
+    try {
+        updateTimerLabel();
+        updateTimerDisplay();
+        
+        if (newPhase === 'focus') {
+            sessionNumber.textContent = sessionsCompleted + 1;
+        }
+    } catch(e) {
+        console.warn("Error updating phase UI", e);
+    }
+}
+
+function resetToCurrentPhaseDuration() {
+    timeRemaining = getPhaseDuration(currentTimerType);
+}
+
+function changePhase(e) {
+    const phase = e.currentTarget.dataset.phase;
+    const phaseMap = {
+        'focus': 'focus',
+        'short-break': 'shortBreak',
+        'long-break': 'longBreak'
+    };
+    
+    const nextPhase = phaseMap[phase] || 'focus';
+
+    if (nextPhase === currentTimerType) return;
+
+    if (isRunning) {
+        if (!confirm('Changing phase will reset the current timer. Continue?')) {
+            return;
+        }
+        stopTimer();
+    }
+
+    switchPhase(nextPhase);
+}
+
+function updateTimerDisplay() {
+    // Prevent negative numbers display
+    const validTime = Math.max(0, timeRemaining);
+    const minutes = Math.floor(validTime / 60);
+    const seconds = validTime % 60;
+    
+    if (timeLeft) {
+        timeLeft.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+    
+    document.title = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} - Lentora`;
+
+    updateProgressCircle();
+}
+
+function updateProgressCircle() {
+    if (!progressCircle) return;
+    
+    const totalTime = getPhaseDuration(currentTimerType);
+    const validTime = Math.max(0, timeRemaining);
+    const progress = ((totalTime - validTime) / totalTime) * 100;
+    
+    const circumference = 2 * Math.PI * 200; // Assuming r=200
+    const offset = circumference - (progress / 100) * circumference;
+    
+    progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+    progressCircle.style.strokeDashoffset = offset;
+    
+    const colors = {
+        focus: 'var(--golden-light)',
+        shortBreak: 'var(--sage-depth)',
+        longBreak: 'var(--forest-shadow)'
+    };
+    progressCircle.style.stroke = colors[currentTimerType] || colors.focus;
+}
+
+function updateTimerLabel() {
+    const phaseData = {
+        focus: { label: 'Focus Time', text: 'Focus', selector: '[data-phase="focus"]' },
+        shortBreak: { label: 'Short Break', text: 'Short Break', selector: '[data-phase="short-break"]' },
+        longBreak: { label: 'Long Break', text: 'Long Break', selector: '[data-phase="long-break"]' }
+    };
+    
+    const data = phaseData[currentTimerType] || phaseData.focus;
+    
+    // Remove active class from all
+    document.querySelectorAll('.phase-option').forEach(option => {
+        option.classList.remove('active');
+    });
+    
+    if (timerLabel) timerLabel.textContent = data.label;
+    if (currentPhase) currentPhase.textContent = data.text;
+    
+    const activeTab = document.querySelector(data.selector);
+    if (activeTab) activeTab.classList.add('active');
+}
+
+function applyCustomDurations() {
+    settings.focusDuration = parseInt(focusDurationInput.value) || 25;
+    settings.shortBreakDuration = parseInt(shortBreakDurationInput.value) || 5;
+    settings.longBreakDuration = parseInt(longBreakDurationInput.value) || 15;
+    
+    if (!isRunning) {
+        resetToCurrentPhaseDuration();
+        updateTimerDisplay();
+    }
+    
+    saveSettings();
+    showNotification('Settings Updated', 'Timer durations have been updated.', 'success');
+}
+
+// ================================
+// UI UPDATE FUNCTIONS
+// ================================
+
+function updateDateDisplay() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    currentDate.textContent = now.toLocaleDateString('en-US', options);
+}
+
 function updateStats() {
     document.getElementById('sessions-today').textContent = sessionsCompleted;
     document.getElementById('focus-time-today').textContent = `${totalFocusTime}m`;
     document.getElementById('tasks-completed').textContent = tasksCompleted;
     
-    // Update dashboard stats
     document.getElementById('today-focus').textContent = `${totalFocusTime} min`;
     document.getElementById('today-sessions').textContent = sessionsCompleted;
     document.getElementById('today-tasks').textContent = tasksCompleted;
     
-    // Save stats to localStorage
     saveStats();
 }
 
-// Save stats to localStorage
-function saveStats() {
-    const stats = {
-        sessionsCompleted,
-        totalFocusTime,
-        tasksCompleted,
-        lastUpdated: new Date().toISOString()
-    };
-    
-    localStorage.setItem('lentora_stats', JSON.stringify(stats));
-}
-
-// Load a random quote
 function loadRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     currentQuote.textContent = `"${quotes[randomIndex].text}"`;
     quoteAuthor.textContent = `- ${quotes[randomIndex].author}`;
 }
 
-// Load a random supportive message
 function loadRandomMessage() {
     const randomIndex = Math.floor(Math.random() * supportiveMessages.length);
     messageText.textContent = supportiveMessages[randomIndex];
     
-    // Add a random flower icon
     const icons = ['fa-spa', 'fa-leaf', 'fa-seedling', 'fa-feather-alt', 'fa-cloud'];
     const randomIcon = icons[Math.floor(Math.random() * icons.length)];
     messageCard.querySelector('i').className = `fas ${randomIcon}`;
 }
 
-// Render tasks based on current filter
+// ================================
+// TASK MANAGEMENT FUNCTIONS
+// ================================
+
 function renderTasks() {
     todoList.innerHTML = '';
     
@@ -462,7 +522,7 @@ function renderTasks() {
         return;
     }
     
-    filteredTasks.forEach((task, index) => {
+    filteredTasks.forEach(task => {
         const taskElement = document.createElement('div');
         taskElement.className = `todo-item ${task.completed ? 'completed' : ''}`;
         taskElement.dataset.id = task.id;
@@ -496,7 +556,6 @@ function renderTasks() {
     });
 }
 
-// Add a new task
 function addTask(title, description, priority, shared = false) {
     const newTask = {
         id: Date.now(),
@@ -512,10 +571,8 @@ function addTask(title, description, priority, shared = false) {
     saveTasks();
     renderTasks();
     
-    // Show notification
     showNotification('Task Added', `"${title}" has been added to your list.`, 'success');
     
-    // If shared, simulate sharing with friends
     if (shared) {
         setTimeout(() => {
             showNotification('Task Shared', `"${title}" has been shared with your focus group.`, 'info');
@@ -523,7 +580,6 @@ function addTask(title, description, priority, shared = false) {
     }
 }
 
-// Toggle task completion
 function toggleTaskCompletion(e) {
     const taskId = parseInt(e.currentTarget.dataset.id);
     const taskIndex = tasks.findIndex(task => task.id === taskId);
@@ -533,10 +589,7 @@ function toggleTaskCompletion(e) {
         
         if (tasks[taskIndex].completed) {
             tasksCompleted++;
-            
-            // Show celebration for completing a task
             showNotification('Task Completed!', `"${tasks[taskIndex].title}" is done!`, 'success');
-            
         } else {
             tasksCompleted = Math.max(0, tasksCompleted - 1);
         }
@@ -547,7 +600,6 @@ function toggleTaskCompletion(e) {
     }
 }
 
-// Delete a task
 function deleteTask(e) {
     const taskId = parseInt(e.currentTarget.dataset.id);
     const taskIndex = tasks.findIndex(task => task.id === taskId);
@@ -562,19 +614,23 @@ function deleteTask(e) {
     }
 }
 
-// Show notification
+// ================================
+// NOTIFICATION FUNCTIONS
+// ================================
+
 function showNotification(title, message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = 'notification';
     
-    // Set icon based on type
-    let icon = 'fa-info-circle';
-    if (type === 'success') icon = 'fa-check-circle';
-    if (type === 'warning') icon = 'fa-exclamation-triangle';
-    if (type === 'error') icon = 'fa-exclamation-circle';
+    const iconMap = {
+        info: 'fa-info-circle',
+        success: 'fa-check-circle',
+        warning: 'fa-exclamation-triangle',
+        error: 'fa-exclamation-circle'
+    };
     
     notification.innerHTML = `
-        <i class="fas ${icon}"></i>
+        <i class="fas ${iconMap[type] || 'fa-info-circle'}"></i>
         <div class="notification-content">
             <div class="notification-title">${title}</div>
             <div class="notification-message">${message}</div>
@@ -584,12 +640,10 @@ function showNotification(title, message, type = 'info') {
     
     notificationContainer.appendChild(notification);
     
-    // Add close event
     notification.querySelector('.notification-close').addEventListener('click', () => {
         notification.remove();
     });
     
-    // Auto-remove after 5 seconds
     setTimeout(() => {
         if (notification.parentNode) {
             notification.style.animation = 'slideOut 0.3s ease';
@@ -600,24 +654,16 @@ function showNotification(title, message, type = 'info') {
             }, 300);
         }
     }, 5000);
-    
-    // Add slideOut animation
-    const styleSheet = document.createElement('style');
-    styleSheet.textContent = `
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-    `;
-    document.head.appendChild(styleSheet);
 }
 
-// Toggle sidebar
+// ================================
+// UI TOGGLE FUNCTIONS
+// ================================
+
 function toggleSidebar() {
     document.querySelector('.sidebar').classList.toggle('collapsed');
 }
 
-// Toggle theme
 function toggleTheme() {
     document.body.classList.toggle('dark-theme');
     const icon = themeToggle.querySelector('i');
@@ -631,68 +677,80 @@ function toggleTheme() {
     }
 }
 
-// Apply custom durations
-function applyCustomDurations() {
-    settings.focusDuration = parseInt(focusDurationInput.value) || 25;
-    settings.shortBreakDuration = parseInt(shortBreakDurationInput.value) || 5;
-    settings.longBreakDuration = parseInt(longBreakDurationInput.value) || 15;
-    
-    // Update timer if it's not running
-    if (!isRunning) {
-        if (currentTimerType === 'focus') {
-            timeRemaining = settings.focusDuration * 60;
-        } else if (currentTimerType === 'shortBreak') {
-            timeRemaining = settings.shortBreakDuration * 60;
-        } else {
-            timeRemaining = settings.longBreakDuration * 60;
-        }
-        
-        updateTimerDisplay();
-    }
-    
-    saveSettings();
-    
-    showNotification('Settings Updated', 'Timer durations have been updated.', 'success');
+function toggleDashboard() {
+    dashboardModal.classList.toggle('active');
 }
 
-// Change timer phase
-function changePhase(e) {
-    const phase = e.currentTarget.dataset.phase;
-    
-    // Remove active class from all phase options
-    phaseOptions.forEach(option => option.classList.remove('active'));
-    
-    // Add active class to clicked option
-    e.currentTarget.classList.add('active');
-    
-    // If timer is running, ask for confirmation
-    if (isRunning) {
-        if (!confirm('Changing phase will reset the current timer. Continue?')) {
-            // Revert active class
-            document.querySelector(`.phase-option[data-phase="${currentTimerType === 'focus' ? 'focus' : currentTimerType === 'shortBreak' ? 'short-break' : 'long-break'}"]`).classList.add('active');
-            return;
-        }
-        
-        pauseTimer();
+function toggleTaskModal() {
+    taskModal.classList.toggle('active');
+    if (taskModal.classList.contains('active')) {
+        taskForm.reset();
     }
-    
-    // Update timer based on selected phase
-    if (phase === 'focus') {
-        currentTimerType = 'focus';
-        timeRemaining = settings.focusDuration * 60;
-    } else if (phase === 'short-break') {
-        currentTimerType = 'shortBreak';
-        timeRemaining = settings.shortBreakDuration * 60;
-    } else {
-        currentTimerType = 'longBreak';
-        timeRemaining = settings.longBreakDuration * 60;
-    }
-    
-    updateTimerDisplay();
 }
 
-// Initialize charts
+function toggleInviteModal() {
+    inviteModal.classList.toggle('active');
+}
+
+// ================================
+// OTHER FUNCTIONS
+// ================================
+
+function copySessionLink() {
+    const linkInput = document.getElementById('session-link');
+    linkInput.select();
+    linkInput.setSelectionRange(0, 99999);
+    
+    navigator.clipboard.writeText(linkInput.value)
+        .then(() => {
+            showNotification('Link Copied', 'Session link copied to clipboard!', 'success');
+        })
+        .catch(err => {
+            console.error('Failed to copy: ', err);
+            showNotification('Error', 'Failed to copy link. Please try again.', 'error');
+        });
+}
+
+function sendInvitation() {
+    const friendEmail = document.getElementById('friend-email').value;
+    const message = document.getElementById('invite-message').value;
+    
+    if (!friendEmail || !isValidEmail(friendEmail)) {
+        showNotification('Invalid Email', 'Please enter a valid email address.', 'error');
+        return;
+    }
+    
+    showNotification('Invitation Sent', `Invitation sent to ${friendEmail}.`, 'success');
+    
+    setTimeout(() => {
+        inviteModal.classList.remove('active');
+        document.getElementById('friend-email').value = '';
+        document.getElementById('invite-message').value = 'Join me for a focused work session!';
+    }, 2000);
+}
+
+function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        if (user.mode === 'guest') {
+            localStorage.removeItem('lentora_tasks');
+            localStorage.removeItem('lentora_stats');
+        }
+        window.location.href = 'index.html';
+    }
+}
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// ================================
+// CHART FUNCTIONS
+// ================================
+
 function initCharts() {
+    // Chart initialization code remains the same
+    // (Keeping it unchanged as it's not duplicated)
     // Daily Chart
     const dailyCtx = document.getElementById('daily-chart').getContext('2d');
     dailyChart = new Chart(dailyCtx, {
@@ -711,28 +769,16 @@ function initCharts() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
+            plugins: { legend: { display: false } },
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: {
-                        color: 'rgba(232, 224, 248, 0.3)'
-                    },
-                    ticks: {
-                        color: 'var(--mauve-whisper)'
-                    }
+                    grid: { color: 'rgba(232, 224, 248, 0.3)' },
+                    ticks: { color: 'var(--mauve-whisper)' }
                 },
                 x: {
-                    grid: {
-                        color: 'rgba(232, 224, 248, 0.3)'
-                    },
-                    ticks: {
-                        color: 'var(--mauve-whisper)'
-                    }
+                    grid: { color: 'rgba(232, 224, 248, 0.3)' },
+                    ticks: { color: 'var(--mauve-whisper)' }
                 }
             }
         }
@@ -755,28 +801,16 @@ function initCharts() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
+            plugins: { legend: { display: false } },
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: {
-                        color: 'rgba(232, 224, 248, 0.3)'
-                    },
-                    ticks: {
-                        color: 'var(--mauve-whisper)'
-                    }
+                    grid: { color: 'rgba(232, 224, 248, 0.3)' },
+                    ticks: { color: 'var(--mauve-whisper)' }
                 },
                 x: {
-                    grid: {
-                        color: 'rgba(232, 224, 248, 0.3)'
-                    },
-                    ticks: {
-                        color: 'var(--mauve-whisper)'
-                    }
+                    grid: { color: 'rgba(232, 224, 248, 0.3)' },
+                    ticks: { color: 'var(--mauve-whisper)' }
                 }
             }
         }
@@ -800,110 +834,29 @@ function initCharts() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
+            plugins: { legend: { display: false } },
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: {
-                        color: 'rgba(232, 224, 248, 0.3)'
-                    },
-                    ticks: {
-                        color: 'var(--mauve-whisper)'
-                    }
+                    grid: { color: 'rgba(232, 224, 248, 0.3)' },
+                    ticks: { color: 'var(--mauve-whisper)' }
                 },
                 x: {
-                    grid: {
-                        color: 'rgba(232, 224, 248, 0.3)'
-                    },
-                    ticks: {
-                        color: 'var(--mauve-whisper)'
-                    }
+                    grid: { color: 'rgba(232, 224, 248, 0.3)' },
+                    ticks: { color: 'var(--mauve-whisper)' }
                 }
             }
         }
     });
 }
 
-// Toggle dashboard modal
-function toggleDashboard() {
-    dashboardModal.classList.toggle('active');
-}
+// ================================
+// EVENT LISTENER SETUP
+// ================================
 
-// Toggle task modal
-function toggleTaskModal() {
-    taskModal.classList.toggle('active');
-    if (taskModal.classList.contains('active')) {
-        taskForm.reset();
-    }
-}
-
-// Toggle invite modal
-function toggleInviteModal() {
-    inviteModal.classList.toggle('active');
-}
-
-// Copy session link to clipboard
-function copySessionLink() {
-    const linkInput = document.getElementById('session-link');
-    linkInput.select();
-    linkInput.setSelectionRange(0, 99999); // For mobile devices
-    
-    navigator.clipboard.writeText(linkInput.value)
-        .then(() => {
-            showNotification('Link Copied', 'Session link copied to clipboard!', 'success');
-        })
-        .catch(err => {
-            console.error('Failed to copy: ', err);
-            showNotification('Error', 'Failed to copy link. Please try again.', 'error');
-        });
-}
-
-// Send invitation
-function sendInvitation() {
-    const friendEmail = document.getElementById('friend-email').value;
-    const message = document.getElementById('invite-message').value;
-    
-    if (!friendEmail || !isValidEmail(friendEmail)) {
-        showNotification('Invalid Email', 'Please enter a valid email address.', 'error');
-        return;
-    }
-    
-    // Simulate sending invitation
-    showNotification('Invitation Sent', `Invitation sent to ${friendEmail}.`, 'success');
-    
-    // Close modal after delay
-    setTimeout(() => {
-        inviteModal.classList.remove('active');
-        document.getElementById('friend-email').value = '';
-        document.getElementById('invite-message').value = 'Join me for a focused work session!';
-    }, 2000);
-}
-
-// Logout
-function logout() {
-    if (confirm('Are you sure you want to logout?')) {
-        // Clear user data if guest
-        if (user.mode === 'guest') {
-            localStorage.removeItem('lentora_tasks');
-            localStorage.removeItem('lentora_stats');
-        }
-        
-        // Redirect to index page
-        window.location.href = 'index.html';
-    }
-}
-
-
-// Setup all event listeners
 function setupEventListeners() {
-    // Sidebar toggle
+    // Sidebar and theme
     sidebarToggle.addEventListener('click', toggleSidebar);
-    
-    // Theme toggle
     themeToggle.addEventListener('click', toggleTheme);
     
     // Timer controls
@@ -971,17 +924,14 @@ function setupEventListeners() {
         const volumeIcon = option.querySelector('.fa-volume-mute');
         
         option.addEventListener('click', () => {
-            // Toggle active state
             soundOptions.forEach(opt => opt.classList.remove('active'));
             option.classList.toggle('active');
             
-            // Stop all sounds
             Object.values(sounds).forEach(sound => {
                 sound.pause();
                 sound.currentTime = 0;
             });
             
-            // If becoming active, play the sound
             if (option.classList.contains('active')) {
                 sounds[soundType].volume = volumeSlider.value / 100;
                 sounds[soundType].play();
@@ -991,12 +941,10 @@ function setupEventListeners() {
             }
         });
         
-        // Volume slider
         volumeSlider.addEventListener('input', (e) => {
             const volume = e.target.value / 100;
             sounds[soundType].volume = volume;
             
-            // Update icon
             if (volume === 0) {
                 volumeIcon.className = 'fas fa-volume-mute';
             } else if (volume < 0.5) {
@@ -1005,7 +953,6 @@ function setupEventListeners() {
                 volumeIcon.className = 'fas fa-volume-up';
             }
             
-            // If sound is active, update volume
             if (option.classList.contains('active')) {
                 sounds[soundType].volume = volume;
             }
@@ -1031,203 +978,19 @@ function setupEventListeners() {
     // Tab switching in dashboard
     document.querySelectorAll('.tab-btn').forEach(tab => {
         tab.addEventListener('click', () => {
-            // Remove active class from all tabs and tab contents
             document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             
-            // Add active class to clicked tab and corresponding content
             tab.classList.add('active');
             document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
         });
     });
 }
 
-// Utility function to validate email
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-// Check for saved theme preference
+// Initialize
 if (localStorage.getItem('lentora_theme') === 'dark') {
     document.body.classList.add('dark-theme');
     themeToggle.querySelector('i').className = 'fas fa-sun';
 }
 
-// Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
-
-// ============================================
-// FIX: MOBILE DROPDOWN WITH REAL CONTENT
-// ============================================
-
-document.addEventListener('DOMContentLoaded', function() {
-  const sidebar = document.querySelector('.sidebar');
-  const compactToggle = document.querySelector('.compact-toggle');
-  const dropdownContent = document.querySelector('.sidebar-dropdown-content');
-  const chevronIcon = compactToggle?.querySelector('i');
-  
-  if (!compactToggle || !dropdownContent) return;
-  
-  // Check if mobile view
-  function isMobileView() {
-    return window.innerWidth <= 1200;
-  }
-  
-  // Initialize state
-  let isExpanded = false;
-  
-  // Set initial visibility
-  function initializeVisibility() {
-    const mobile = isMobileView();
-    
-    if (mobile) {
-      // Mobile: collapsed by default
-      dropdownContent.classList.remove('expanded');
-      compactToggle.classList.remove('expanded');
-      isExpanded = false;
-      compactToggle.setAttribute('aria-expanded', 'false');
-      if (chevronIcon) chevronIcon.style.transform = 'rotate(0deg)';
-      console.log('Mobile: Dropdown collapsed by default');
-    } else {
-      // Desktop: always visible
-      dropdownContent.classList.add('expanded');
-      compactToggle.classList.add('expanded');
-      isExpanded = true;
-      compactToggle.setAttribute('aria-expanded', 'true');
-      if (chevronIcon) chevronIcon.style.transform = 'rotate(180deg)';
-      console.log('Desktop: All content visible');
-    }
-  }
-  
-  // Toggle dropdown
-  function toggleDropdown() {
-    if (!isMobileView()) return;
-    
-    isExpanded = !isExpanded;
-    
-    dropdownContent.classList.toggle('expanded', isExpanded);
-    compactToggle.classList.toggle('expanded', isExpanded);
-    compactToggle.setAttribute('aria-expanded', isExpanded);
-    
-    if (chevronIcon) {
-      chevronIcon.style.transform = isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
-    }
-    
-    console.log('Dropdown toggled:', isExpanded ? 'open' : 'closed');
-  }
-  
-  // Initialize
-  initializeVisibility();
-  
-  // Toggle on click
-  compactToggle.addEventListener('click', function(e) {
-    e.stopPropagation();
-    toggleDropdown();
-  });
-  
-  // Handle resize
-  let resizeTimeout;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(initializeVisibility, 150);
-  });
-  
-  // Close dropdown when clicking outside
-  document.addEventListener('click', function(event) {
-    if (!isMobileView() || !isExpanded) return;
-    
-    const isClickInSidebar = event.target.closest('.sidebar');
-    const isClickOnToggle = event.target.closest('.compact-toggle');
-    
-    if (!isClickInSidebar && !isClickOnToggle) {
-      toggleDropdown();
-    }
-  });
-  
-  // Accessibility
-  compactToggle.setAttribute('role', 'button');
-  compactToggle.setAttribute('tabindex', '0');
-  
-  compactToggle.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      toggleDropdown();
-    }
-  });
-});
-
-// Add this to your dashboard.js or create a new mobile-toggle.js
-document.addEventListener('DOMContentLoaded', function() {
-  const compactToggle = document.querySelector('.compact-toggle');
-  const dropdownContent = document.querySelector('.sidebar-dropdown-content');
-  
-  if (!compactToggle || !dropdownContent) return;
-  
-  compactToggle.addEventListener('click', function() {
-    const isExpanded = dropdownContent.classList.toggle('expanded');
-    this.classList.toggle('expanded', isExpanded);
-    this.setAttribute('aria-expanded', isExpanded);
-  });
-});
-
-// ============================================ 
-// SAFETY CHECK: Ensure toggle is hidden on desktop
-// ============================================ 
-
-document.addEventListener('DOMContentLoaded', function() {
-  const compactToggle = document.querySelector('.compact-toggle');
-  
-  if (!compactToggle) return;
-  
-  function checkAndHideToggle() {
-    const isDesktop = window.innerWidth >= 1201;
-    
-    if (isDesktop) {
-      // Force hide on desktop with inline styles
-      compactToggle.style.display = 'none';
-      compactToggle.style.visibility = 'hidden';
-      compactToggle.style.opacity = '0';
-      compactToggle.style.position = 'absolute';
-      compactToggle.style.zIndex = '-1000';
-      compactToggle.style.pointerEvents = 'none';
-    } else {
-      // Restore on mobile
-      compactToggle.style.display = 'flex';
-      compactToggle.style.visibility = 'visible';
-      compactToggle.style.opacity = '1';
-      compactToggle.style.position = 'absolute';
-      compactToggle.style.zIndex = '10';
-      compactToggle.style.pointerEvents = 'auto';
-    }
-  }
-  
-  // Check on load and resize
-  checkAndHideToggle();
-  window.addEventListener('resize', checkAndHideToggle);
-});
-
-// Add to your existing toggle handler
-document.addEventListener('DOMContentLoaded', function() {
-  const compactToggle = document.querySelector('.compact-toggle');
-  const dropdownContent = document.querySelector('.sidebar-dropdown-content');
-  
-  if (!compactToggle || !dropdownContent) return;
-  
-  // Store original position
-  const originalTransform = compactToggle.style.transform;
-  
-  compactToggle.addEventListener('click', function(e) {
-    e.preventDefault();
-    
-    // Prevent any layout shift during toggle
-    requestAnimationFrame(() => {
-      const isExpanded = dropdownContent.classList.toggle('expanded');
-      compactToggle.classList.toggle('expanded', isExpanded);
-      compactToggle.setAttribute('aria-expanded', isExpanded);
-      
-      // Force arrow to stay in position
-      compactToggle.style.transform = 'translateY(-50%)';
-    });
-  });
-});
