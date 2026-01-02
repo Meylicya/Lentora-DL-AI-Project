@@ -2373,7 +2373,7 @@ body {
 
   /* FIX: Expanded dropdown */
   .sidebar-dropdown-content.expanded {
-    max-height: 1000px; /* Enough for all content */
+    max-height: 2000px; /* Enough for all content */
     opacity: 1;
     pointer-events: auto;
     padding: var(--spacing-lg) var(--spacing-lg);
