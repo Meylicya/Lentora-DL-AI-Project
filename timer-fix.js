@@ -47,31 +47,58 @@ class UniversalTimerFix {
         
         let currentSeconds = 0;
         if (parts.length === 2) {
-            currentSeconds = (parts[0] * 60) + parts[1]; // mm:ss
+            currentSeconds = (parts[0] * 60) + parts[1];
         } else if (parts.length === 3) {
-            currentSeconds = (parts[0] * 3600) + (parts[1] * 60) + parts[2]; // hh:mm:ss
+            currentSeconds = (parts[0] * 3600) + (parts[1] * 60) + parts[2];
         }
 
-        // AUTO-CALIBRATION LOGIC:
-        // If the timer jumps up (like after hitting 'Reset' or 'Apply'), 
-        // we update our 100% mark.
         if (currentSeconds > this.maxSeenSeconds) {
             this.maxSeenSeconds = currentSeconds;
         }
 
-        // Prevent division by zero
         const denominator = this.maxSeenSeconds || 1;
         const progress = currentSeconds / denominator;
         const offset = this.circumference * progress;
-        
-        this.circle.style.transition = 'stroke-dashoffset 1s linear';
+
+        if (currentSeconds >= this.maxSeenSeconds) {
+            this.circle.style.transition = 'none'; 
+        } else {
+            this.circle.style.transition = 'stroke-dashoffset 1s linear';
+        }
+
         this.circle.style.strokeDashoffset = offset;
 
-        // If timer hits zero, reset maxSeenSeconds for the next session
         if (currentSeconds === 0) {
             this.maxSeenSeconds = 0;
         }
     }
+}
+
+function switchPhase(newPhase) {
+    currentTimerType = newPhase;
+    timeRemaining = getPhaseDuration(newPhase);
+
+    updateTimerLabel();
+    updateTimerDisplay(); // This updates the text that the Observer is watching
+
+    // FIX: Reset the UniversalTimerFix calibration so the circle snaps correctly
+    if (window.timerFix) {
+        window.timerFix.maxSeenSeconds = timeRemaining;
+    }
+
+    if (newPhase === 'focus' && sessionNumber) {
+        sessionNumber.textContent = sessionsCompleted + 1;
+    }
+}  
+
+function skipTimer() {
+    stopTimer(); // Stop the current ticking
+    
+    const nextPhase = determineNextPhase(false); 
+    switchPhase(nextPhase); // This now resets the circle via the code above
+    
+    // Explicitly start the new session
+    startTimer(); 
 }
 
 document.addEventListener('DOMContentLoaded', () => {
