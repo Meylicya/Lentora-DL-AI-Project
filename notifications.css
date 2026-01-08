@@ -273,8 +273,12 @@ body.dark-theme .notification-progress {
     margin-right: 10px;
 }
 
-#sound-toggle-btn .fa-volume-up {
-    color: var(--sage-depth);
+body.dark-theme #sound-toggle-btn {
+    color: #e8e6f0 !important;
+}
+
+body.dark-theme #sound-toggle-btn i {
+    color: #e8e6f0 !important;
 }
 
 #sound-toggle-btn .fa-volume-mute {

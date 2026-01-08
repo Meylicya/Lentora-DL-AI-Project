@@ -278,7 +278,8 @@ function resetTimer() {
 
 function skipTimer() {
     stopTimer();
-    const nextPhase = determineNextPhase(false);
+    // Passing 'false' because it's a skip, not a completion
+    const nextPhase = determineNextPhase(false); 
     switchPhase(nextPhase);
 }
 
@@ -286,61 +287,52 @@ function skipTimer() {
 function processTimerCompletion() {
     const wasFocus = currentTimerType === 'focus';
     
-    // 1. CRITICAL: Determine next phase immediately (Logic First)
-    const nextPhase = determineNextPhase(wasFocus);
+    // 1. Determine next phase (passing 'true' because timer reached 00:00)
+    const nextPhase = determineNextPhase(true);
 
-    // 2. CRITICAL: Switch the state immediately so the timer is ready
+    // 2. Switch the state and UI
     switchPhase(nextPhase);
 
-    // 3. Handle Stats, Sounds, and UI (Wrapped in try-catch so errors don't stop auto-start)
+    // 3. Audio and Notifications
     try {
         if (wasFocus) {
-            sessionsCompleted++;
             totalFocusTime += settings.focusDuration;
             updateStats();
-            
-            if (settings.soundEnabled) {
-                sessionEndSound.play().catch(e => console.warn("Audio play blocked", e));
-            }
+            if (settings.soundEnabled) sessionEndSound.play();
             showNotification('Focus Session Complete!', 'Time for a break.', 'success');
-            loadRandomMessage();
         } else {
-            if (settings.soundEnabled) {
-                breakEndSound.play().catch(e => console.warn("Audio play blocked", e));
-            }
-            showNotification('Break Time Over!', 'Ready to focus again?', 'info');
+            if (settings.soundEnabled) breakEndSound.play();
+            showNotification('Break Time Over!', 'Ready to focus?', 'info');
         }
     } catch (error) {
-        console.error("UI/Audio update failed, but continuing timer logic:", error);
+        console.error("UI/Audio update failed:", error);
     }
 
-    // 4. Handle Auto-Start
-    // We check settings explicitly. 
-    let shouldAutoStart = false;
-    
-    if (nextPhase === 'focus') {
-        shouldAutoStart = settings.autoStartFocus;
-    } else {
-        shouldAutoStart = settings.autoStartBreaks;
-    }
-
+    // 4. Auto-Start
+    const shouldAutoStart = (nextPhase === 'focus') ? settings.autoStartFocus : settings.autoStartBreaks;
     if (shouldAutoStart) {
-        // Use a 500ms delay to ensure the DOM has settled and sounds have initiated
-        setTimeout(() => {
-            console.log(`Auto-starting ${nextPhase}...`);
-            startTimer();
-        }, 500); 
+        setTimeout(() => startTimer(), 500);
     }
 }
 
 function determineNextPhase(wasNaturalCompletion) {
     if (currentTimerType === 'focus') {
-        // If natural completion, check for long break
-        if (wasNaturalCompletion && sessionsCompleted > 0 && sessionsCompleted % settings.longBreakInterval === 0) {
+        if (wasNaturalCompletion) {
+            sessionsCompleted++;
+        }
+
+        // 1. If we hit the goal (4), go to Long Break and reset counter NOW
+        if (sessionsCompleted >= settings.longBreakInterval) {
+            // We reset to 0 here so the NEXT cycle is ready
+            // But we return 'longBreak' so the user gets their big rest
+            sessionsCompleted = 0; 
             return 'longBreak';
         }
+        
+        // 2. Otherwise, just a short break
         return 'shortBreak';
     } else {
+        // 3. If we are in ANY break (short or long), the next step is ALWAYS focus
         return 'focus';
     }
 }
@@ -349,13 +341,30 @@ function switchPhase(newPhase) {
     currentTimerType = newPhase;
     timeRemaining = getPhaseDuration(newPhase);
 
-    // Update UI elements safely
     try {
         updateTimerLabel();
         updateTimerDisplay();
         
-        if (newPhase === 'focus') {
-            sessionNumber.textContent = sessionsCompleted + 1;
+        // Reset the Circle UI
+        if (window.timerFix) {
+            window.timerFix.maxSeenSeconds = timeRemaining;
+        }
+
+        if (sessionNumber) {
+            const maxSessions = settings.longBreakInterval; // This is 4
+            
+            if (newPhase === 'focus') {
+                // Calculation: (0%4)+1 = 1, (1%4)+1 = 2, (2%4)+1 = 3, (3%4)+1 = 4
+                // When sessionsCompleted hits 4, it loops back: (4%4)+1 = 1
+                const currentDisplay = (sessionsCompleted % maxSessions) + 1;
+                sessionNumber.textContent = `${currentDisplay}/${maxSessions}`;
+            } else {
+                // During breaks, show the number of the session just completed
+                // We use a small trick: if it's 0 after completion, it was the 4th session
+                let completedDisplay = sessionsCompleted % maxSessions;
+                if (completedDisplay === 0 && sessionsCompleted > 0) completedDisplay = maxSessions;
+                sessionNumber.textContent = `${completedDisplay}/${maxSessions}`;
+            }
         }
     } catch(e) {
         console.warn("Error updating phase UI", e);
